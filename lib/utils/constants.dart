@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_pokedex/models/color_information.dart';
 
 class MyColors {
   static const int YELLOW_INT = 0xffffcb05;
@@ -7,7 +8,6 @@ class MyColors {
   static const int BLUE_ACCENT_INT = 0xff2c60a0;
 
   static const Color YELLOW = const Color(0xffffcb05);
-  static const Color WHITE = Colors.white;
   static const Color DARK_BLUE = const Color(0xff003a70);
   static const Color BLUE = const Color(0xff3d7dca);
   static const Color BLUE_ACCENT = const Color(0xff2c60a0);
@@ -27,21 +27,6 @@ class MyMaterialColors {
       700: MyColors.YELLOW,
       800: MyColors.YELLOW,
       900: MyColors.YELLOW,
-    },
-  );
-  static const MaterialColor WHITE = const MaterialColor(
-    0xffffffff,
-    <int, Color>{
-      50: MyColors.WHITE,
-      100: MyColors.WHITE,
-      200: MyColors.WHITE,
-      300: MyColors.WHITE,
-      400: MyColors.WHITE,
-      500: MyColors.WHITE,
-      600: MyColors.WHITE,
-      700: MyColors.WHITE,
-      800: MyColors.WHITE,
-      900: MyColors.WHITE,
     },
   );
   static const MaterialColor DARK_BLUE = const MaterialColor(
@@ -88,5 +73,29 @@ class MyMaterialColors {
       800: MyColors.BLUE_ACCENT,
       900: MyColors.BLUE_ACCENT,
     },
+  );
+}
+
+class PokemonTypeColors {
+  static ColorInformation poison = ColorInformation(
+    const Color(0xff682a68),
+    luminance: const Color(0xff682a68).computeLuminance(),
+    textColor: const Color(0xff682a68).computeLuminance() > 0.5
+        ? Colors.black
+        : Colors.white,
+  );
+  static ColorInformation yellow = ColorInformation(
+    const Color(MyColors.YELLOW_INT),
+    luminance: const Color(MyColors.YELLOW_INT).computeLuminance(),
+    textColor: const Color(MyColors.YELLOW_INT).computeLuminance() > 0.5
+        ? Colors.black
+        : Colors.white,
+  );
+  static ColorInformation white = ColorInformation(
+    const Color(0xffffffff),
+    luminance: const Color(0xffffffff).computeLuminance(),
+    textColor: const Color(0xffffffff).computeLuminance() > 0.5
+        ? Colors.black
+        : Colors.white,
   );
 }

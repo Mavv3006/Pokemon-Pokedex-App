@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/all_pokemons.dart';
-import 'package:pokemon_pokedex/models/pokemon/pokemon/pokemon.dart';
+import 'package:pokemon_pokedex/screens/mainScreen/widgets/pokemon_widget.dart';
 import 'package:provider/provider.dart';
 
 class MainBody extends StatelessWidget {
@@ -10,21 +10,24 @@ class MainBody extends StatelessWidget {
       builder: (BuildContext context, AllPokemons value, Widget child) {
         var all = value.getAll;
         try {
-          return ListView(
-            children: mapPokemonToWidget(all),
+          return ListView.separated(
+            padding: const EdgeInsets.only(
+              top: 20,
+              bottom: 20,
+            ),
+            itemCount: all.length,
+            itemBuilder: (BuildContext context, int index) {
+              return PokemonWidget(all[index]);
+            },
+            separatorBuilder: (BuildContext context, int index) => Divider(
+              color: Colors.transparent,
+              height: 12,
+            ),
           );
-        } catch(e) {
+        } catch (e) {
           return Text(e.toString());
         }
       },
     );
-  }
-
-  List<Widget> mapPokemonToWidget(List<Pokemon> pokemonList) {
-    List<Widget> list = [Text(pokemonList.length.toString())];
-    pokemonList.forEach((element) {
-      list.add(Text(element.name));
-    });
-    return list;
   }
 }

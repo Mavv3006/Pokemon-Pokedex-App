@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///E:/Dev/AppProject/pokemon_pokedex/lib/screens/mainScreen/widgets/main_body.dart';
+import 'package:pokemon_pokedex/screens/mainScreen/widgets/main_body.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
 
 class MyHomePage extends StatelessWidget {
