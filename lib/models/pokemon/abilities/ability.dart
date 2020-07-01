@@ -1,25 +1,13 @@
 import 'package:pokemon_pokedex/models/utility/util.dart';
 
 class Ability {
-  final int id;
-  final String name;
-  final bool isMainSeries;
-  final NamedAPIResource generation;
-  final List<Name> names;
-//  final List<VerboseEffect> effectEntries;
-//  final List<AbilityEffectChange> effectChanges;
-//  final List<AbilityFlavorText> flavorTextEntries;
-//  final List<AbilityPokemon> pokemon;
+  NamedAPIResource ability;
+  bool isHidden;
+  int slot;
 
-  Ability({
-    this.id,
-    this.name,
-    this.isMainSeries,
-    this.generation,
-    this.names,
-//    this.effectEntries,
-//    this.effectChanges,
-//    this.flavorTextEntries,
-//    this.pokemon,
-  });
+  Ability.fromJson(json) {
+    ability = NamedAPIResource.fromJson(json['ability']);
+    isHidden = json['is_hidden'];
+    slot = json['slot'];
+  }
 }

@@ -1,54 +1,51 @@
+import 'package:pokemon_pokedex/models/pokemon/abilities/ability.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon/pokemon_details.dart';
 import 'package:pokemon_pokedex/models/utility/util.dart';
 
 class Pokemon {
-  final int id;
-  final String name;
-  final int baseExperience;
-  final int height;
-  final bool isDefault;
-  final int order;
-  final int weight;
-  final List<PokemonAbility> abilities;
-  final List<NamedAPIResource> forms;
-  final List<VersionGameIndex> gameIndicies;
-  final List<PokemonHeldItem> heldItems;
-  final String locationAreaEncounters;
-  final List<PokemonMove> moves;
-  final PokemonSprites sprites;
-  final NamedAPIResource species;
-  final List<PokemonStat> stats;
-  final List<PokemonType> types;
+  int id;
+  String name;
+  int baseExperience;
+  int height;
+  bool isDefault;
+  int order;
+  int weight;
+  List<PokemonAbility> abilities;
+  List<NamedAPIResource> forms;
+  List<VersionGameIndex> gameIndicies;
+  List<PokemonHeldItem> heldItems;
+  String locationAreaEncounters;
+  List<PokemonMove> moves;
+  PokemonSprites sprites;
+  NamedAPIResource species;
+  List<PokemonStat> stats;
+  List<PokemonType> types;
 
-  Pokemon({
-    this.id,
-    this.name,
-    this.baseExperience,
-    this.height,
-    this.isDefault,
-    this.order,
-    this.weight,
-    this.abilities,
-    this.forms,
-    this.gameIndicies,
-    this.heldItems,
-    this.locationAreaEncounters,
-    this.moves,
-    this.sprites,
-    this.species,
-    this.stats,
-    this.types,
-  });
+  Pokemon.fromJson(Map<String, dynamic> json) {
+    var abilitiesList = json['abilities'] as List;
+    var formsList = json['forms'] as List;
+    var gameIndiciesList = json['game_indices'] as List;
+    var heldItemsList = json['held_items'] as List;
+    var movesList = json['moves'] as List;
+    var statsList = json['stats'] as List;
+    var typesList = json['types'] as List;
 
-  static Pokemon fromJSON(Map<String, dynamic> json) {
-    return Pokemon(
-      id: json['id'],
-      name: json['name'],
-    );
-  }
-
-  @override
-  String toString() {
-    return 'Pokemon{id: $id, name: $name}';
+    id = json['id'];
+    name = json['name'];
+    baseExperience = json['base_experience'];
+    height = json['height'];
+    isDefault = json['is_default'];
+    order = json['order'];
+    weight = json['weight'];
+    abilities = abilitiesList.map((i) => Ability.fromJson(i)).toList();
+    forms = formsList.map((i) => NamedAPIResource.fromJSON(i)).toList();
+    gameIndicies = [];
+    heldItems = [];
+    locationAreaEncounters = json['location_area_encounters'];
+    moves = [];
+    sprites = PokemonSprites.fromJSON(json['sprites']);
+    species = NamedAPIResource.fromJSON(json['species']);
+    stats = [];
+    types = [];
   }
 }

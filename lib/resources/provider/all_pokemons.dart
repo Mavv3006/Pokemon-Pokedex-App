@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon/pokemon_details.dart';
 import 'package:pokemon_pokedex/models/utility/util.dart';
+import 'package:pokemon_pokedex/resources/api_provider.dart';
 
 class AllPokemons extends ChangeNotifier {
+  final ApiProvider apiProvider = ApiProvider();
   List<Pokemon> _pokemonList = <Pokemon>[
     Pokemon(
       id: 1,
@@ -33,6 +35,12 @@ class AllPokemons extends ChangeNotifier {
               'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png',
         ),
       ],
+      sprites: PokemonSprites(
+        frontDefault:
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png',
+        backDefault:
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/132.png',
+      ),
       name: "2nd Pokemon",
       types: [
         PokemonType(
@@ -86,7 +94,10 @@ class AllPokemons extends ChangeNotifier {
   List<Pokemon> get getAll => _pokemonList;
 
   _updateList() async {
-    // _pokemonList = await PokemonHttpClient.getAll();
+    _pokemonList = await apiProvider.getMultiple(
+      limit: 10,
+      offset: 0,
+    );
     notifyListeners();
   }
 }

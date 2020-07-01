@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/models/pokemon_list.dart';
-import 'package:pokemon_pokedex/resources/pokemon_http_client.dart';
 
 void main() {
   test('parse http json response', () {
@@ -10,7 +9,10 @@ void main() {
       "next": "https://pokeapi.co/api/v2/pokemon?offset=1&limit=1",
       "previous": null,
       "results": [
-        {"name": "bulbasaur", "url": "https://pokeapi.co/api/v2/pokemon/1/"}
+        {
+          "name": "bulbasaur",
+          "url": "https://pokeapi.co/api/v2/pokemon/1/",
+        },
       ]
     };
 
@@ -33,12 +35,5 @@ void main() {
     expect(pokemon.id, 1);
     expect(pokemon.name, 'test');
     expect(pokemon.abilities, null);
-  });
-
-  test('get with ID', () async {
-    final int id = 1;
-    Pokemon pokemon = await PokemonHttpClient.getWithId(id);
-
-    expect(pokemon.id, id);
   });
 }

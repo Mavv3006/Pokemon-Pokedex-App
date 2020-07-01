@@ -29,7 +29,7 @@ class PokemonNumber extends StatelessWidget {
           '$id',
           style: TextStyle(
             color: MyColors.DARK_BLUE,
-            fontSize: 18,
+            fontSize: 19,
             fontWeight: FontWeight.w900,
           ),
         ),
