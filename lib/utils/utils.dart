@@ -7,12 +7,12 @@ class Utils {
     try {
       switch (type.type.name) {
         case 'test':
-          return PokemonTypeColors.poison;
+          return PokemonTypeColors.fire;
         default:
-          return PokemonTypeColors.yellow;
+          return PokemonTypeColors.electric;
       }
     } catch (_) {
-      return PokemonTypeColors.white;
+      return PokemonTypeColors.unknown;
     }
   }
 }

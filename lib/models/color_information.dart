@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ColorInformation {
-  final Color color;
-  final double luminance;
+  Color color;
+  double luminance;
   Color textColor;
 
-  ColorInformation(
-    this.color, {
-    this.luminance,
-    this.textColor,
-  });
+  ColorInformation(int colorInt) {
+    color = Color(colorInt);
+    luminance = color.computeLuminance();
+    textColor = luminance > 0.5 ? Colors.black : Colors.white;
+  }
 }
