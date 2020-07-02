@@ -2,7 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/utility/named_api_resource.dart';
+import 'package:to_string/to_string.dart';
 
+part 'pokemon_type.g.dart';
+
+@ToString()
 class PokemonType {
   int id;
   String url;
@@ -23,6 +27,10 @@ class PokemonType {
         .where((element) => element.language.name == 'de')
         .elementAt(0)
         .name;
+  }
+  @override
+  String toString() {
+    return _$PokemonTypeToString(this);
   }
 }
 

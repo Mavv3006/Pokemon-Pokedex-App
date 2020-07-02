@@ -35,9 +35,11 @@ class ApiProvider {
   Future<Pokemon> getSingle(int id) async {
     Pokemon pokemon = await getBasicInformation(id);
     pokemon.name = await getName(id);
-    List<PokemonType> types = pokemon.types.map((e) async {
-      return await getType(e.url);
-    }).toList() as List<PokemonType>;
+    List<PokemonType> listOfTypes = List();
+    for (PokemonType type in pokemon.types) {
+      listOfTypes.add(await getType(type.url));
+    }
+    pokemon.types = listOfTypes;
     return pokemon;
   }
 

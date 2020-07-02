@@ -1,3 +1,7 @@
+import 'package:to_string/to_string.dart';
+part 'pokemon_sprites.g.dart';
+
+@ToString()
 class PokemonSprites {
   String frontDefault;
   String frontShiny;
@@ -16,5 +20,10 @@ class PokemonSprites {
     frontFemale = json['front_female'];
     frontShiny = json['front_shiny'];
     frontShinyFemale = json['front_shiny_female'];
+  }
+
+  @override
+  String toString() {
+    return _$PokemonSpritesToString(this);
   }
 }
