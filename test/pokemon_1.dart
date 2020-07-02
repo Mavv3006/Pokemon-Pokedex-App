@@ -10143,7 +10143,7 @@ const pokemon_1 = {
     "back_default":
         "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png",
     "back_female": null,
-    "back_shiny":
+    "fny":
         "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/1.png",
     "back_shiny_female": null,
     "front_default":

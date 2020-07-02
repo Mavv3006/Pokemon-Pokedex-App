@@ -8,7 +8,7 @@ class PokemonSprites {
   String backFemale;
   String backShinyFemale;
 
-  PokemonSprites.fromJSON(Map<String, dynamic> json) {
+  PokemonSprites.fromJson(Map<String, dynamic> json) {
     backDefault = json['back_default'];
     backFemale = json['back_female'];
     backShinyFemale = json['back_shiny_female'];
