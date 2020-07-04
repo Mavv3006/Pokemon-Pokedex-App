@@ -8,30 +8,6 @@ class ApiProvider {
   static const String BASE_URL = "https://pokeapi.co/api/v2/";
   Client client = Client();
 
-  // Future<List<Pokemon>> getAll() async {
-  // final String url = BASE_URL + "pokemon";
-  //   Response response =await client.get(url);
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> jsonResponse = json.decode(response.body);
-  //     PokemonList list = PokemonList.fromJSON(jsonResponse);
-  //     return await extractPokemonFromList(list);
-  //   }
-  //   return [];
-  // }
-
-  // Future<List<Pokemon>> extractPokemonFromList(PokemonList list) async {
-  //   List<Pokemon> pokemonList = [];
-  //   list.results.forEach((element) async {
-  //     Response pokemonResponse = await _getFromUrl(element.url);
-  //     if (pokemonResponse.statusCode == 200) {
-  //       Map<String, dynamic> pokemonJsonResponse =
-  //           json.decode(pokemonResponse.body);
-  //       pokemonList.add(Pokemon.fromJson(pokemonJsonResponse));
-  //     }
-  //   });
-  //   return pokemonList;
-  // }
-
   Future<Pokemon> getSingle(int id) async {
     Pokemon pokemon = await getBasicInformation(id);
     pokemon.name = await getName(id);
@@ -67,6 +43,7 @@ class ApiProvider {
     return PokemonType.fromJson(json: jsonResponse, url: url);
   }
 
+  @deprecated
   Future<List<Pokemon>> getMultiple({int offset, int limit}) async {
     return [];
   }

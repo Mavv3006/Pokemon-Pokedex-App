@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_pokedex/models/utility/named_api_resource.dart';
+import 'package:pokemon_pokedex/models/color_information.dart';
+import 'package:pokemon_pokedex/models/pokemon/name.dart';
+import 'package:pokemon_pokedex/utils/pokemon_type_colors.dart';
 import 'package:to_string/to_string.dart';
 
 part 'pokemon_type.g.dart';
@@ -9,6 +11,7 @@ class PokemonType {
   int id;
   String url;
   String name;
+  ColorInformation color;
 
   PokemonType.fromUrl(this.url);
 
@@ -25,6 +28,7 @@ class PokemonType {
         .where((element) => element.language.name == 'de')
         .elementAt(0)
         .name;
+    this.color = PokemonTypeColors.getById(id);
   }
   @override
   String toString() {
@@ -35,15 +39,5 @@ class PokemonType {
     this.id,
     this.name,
     this.url,
-  });
-}
-
-class Name {
-  String name;
-  NamedAPIResource language;
-
-  Name.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    language = NamedAPIResource.fromJson(json['language']);
-  }
+  }) : color = PokemonTypeColors.getById(id);
 }

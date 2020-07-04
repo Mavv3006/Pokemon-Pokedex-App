@@ -3,7 +3,7 @@ import 'package:pokemon_pokedex/models/color_information.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/screens/mainScreen/widgets/type_indicator.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
-import 'package:pokemon_pokedex/utils/utils.dart';
+import 'package:pokemon_pokedex/utils/pokemon_type_colors.dart';
 
 class PokemonInformation extends StatelessWidget {
   const PokemonInformation(
@@ -46,7 +46,8 @@ class PokemonInformation extends StatelessWidget {
     ];
     if (pokemon.types != null) {
       for (var i = 0; i < pokemon.types.length; i++) {
-        ColorInformation typeColor = Utils.mapTypeToColor(pokemon.types[i]);
+        ColorInformation typeColor =
+            PokemonTypeColors.getById(pokemon.types[i].id);
         Widget typeIndicator = TypeIndicator(
           typeColor: typeColor,
           typeName: pokemon.types[i].name,
