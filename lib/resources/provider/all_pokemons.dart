@@ -16,9 +16,8 @@ class AllPokemons extends ChangeNotifier {
 
   _updateList() async {
     _pokemonList.add(await apiProvider.getSingle(1));
-    notifyListeners();
     _pokemonList.add(await apiProvider.getSingle(2));
-    notifyListeners();
+    _pokemonList.add(await apiProvider.getSingle(3));
     _pokemonList.add(await apiProvider.getSingle(384));
     notifyListeners();
   }
