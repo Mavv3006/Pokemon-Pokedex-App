@@ -22,6 +22,17 @@ class PokemonSprites {
     frontShinyFemale = json['front_shiny_female'];
   }
 
+  PokemonSprites({
+    this.backDefault,
+    this.backFemale,
+    this.backShiny,
+    this.backShinyFemale,
+    this.frontDefault,
+    this.frontFemale,
+    this.frontShiny,
+    this.frontShinyFemale,
+  });
+
   @override
   String toString() {
     return _$PokemonSpritesToString(this);

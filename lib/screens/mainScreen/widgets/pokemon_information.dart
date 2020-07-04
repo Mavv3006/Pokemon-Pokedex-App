@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/color_information.dart';
-import 'package:pokemon_pokedex/models/pokemon/pokemon/pokemon.dart';
+import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/screens/mainScreen/widgets/type_indicator.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
 import 'package:pokemon_pokedex/utils/utils.dart';
@@ -49,7 +49,7 @@ class PokemonInformation extends StatelessWidget {
         ColorInformation typeColor = Utils.mapTypeToColor(pokemon.types[i]);
         Widget typeIndicator = TypeIndicator(
           typeColor: typeColor,
-          typeName: pokemon.types[i].type.name,
+          typeName: pokemon.types[i].name,
         );
         typeList.add(typeIndicator);
       }

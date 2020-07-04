@@ -23,6 +23,13 @@ class Pokemon {
         .toList();
   }
 
+  Pokemon({
+    this.id,
+    this.name,
+    this.sprites,
+    this.types,
+  });
+
   @override
   String toString() {
     return _$PokemonToString(this);

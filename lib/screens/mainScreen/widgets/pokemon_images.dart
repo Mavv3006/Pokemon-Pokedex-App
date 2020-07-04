@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_pokedex/models/pokemon/pokemon/pokemon.dart';
+import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 
 class PokemonImages extends StatelessWidget {
   final Pokemon pokemon;

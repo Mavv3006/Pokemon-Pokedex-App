@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/utility/named_api_resource.dart';
 import 'package:to_string/to_string.dart';
@@ -32,6 +30,12 @@ class PokemonType {
   String toString() {
     return _$PokemonTypeToString(this);
   }
+
+  PokemonType({
+    this.id,
+    this.name,
+    this.url,
+  });
 }
 
 class Name {
