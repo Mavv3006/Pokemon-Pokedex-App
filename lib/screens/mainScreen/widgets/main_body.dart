@@ -9,24 +9,21 @@ class MainBody extends StatelessWidget {
     return Consumer<AllPokemons>(
       builder: (BuildContext context, AllPokemons value, Widget child) {
         var all = value.getAll;
-        try {
-          return ListView.separated(
-            padding: const EdgeInsets.only(
-              top: 20,
-              bottom: 20,
-            ),
-            itemCount: all.length,
-            itemBuilder: (BuildContext context, int index) {
-              return PokemonWidget(all[index]);
-            },
-            separatorBuilder: (BuildContext context, int index) => Divider(
-              color: Colors.transparent,
-              height: 12,
-            ),
-          );
-        } catch (e) {
-          return Text(e.toString());
-        }
+
+        return ListView.separated(
+          padding: const EdgeInsets.only(
+            top: 20,
+            bottom: 20,
+          ),
+          itemCount: all.length,
+          itemBuilder: (BuildContext context, int index) {
+            return PokemonWidget(all[index]);
+          },
+          separatorBuilder: (BuildContext context, int index) => Divider(
+            color: Colors.transparent,
+            height: 12,
+          ),
+        );
       },
     );
   }
