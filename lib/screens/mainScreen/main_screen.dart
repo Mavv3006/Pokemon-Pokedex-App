@@ -30,7 +30,49 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
       ),
-      body: MainBody(),
+      body: Stack(
+        children: <Widget>[
+          MainBody(),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 25,
+                bottom: 25,
+              ),
+              child: FloatingActionButton(
+                onPressed: null,
+                child: Icon(
+                  Icons.navigate_before,
+                  color: MyColors.YELLOW,
+                  size: 30,
+                ),
+                // Disabled Button Color
+                backgroundColor: MyColors.BLUE_ACCENT,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 25,
+                bottom: 25,
+              ),
+              child: FloatingActionButton(
+                onPressed: () {},
+                // Active Button Color
+                backgroundColor: MyColors.DARK_BLUE,
+                child: Icon(
+                  Icons.navigate_next,
+                  color: MyColors.YELLOW,
+                  size: 30,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
