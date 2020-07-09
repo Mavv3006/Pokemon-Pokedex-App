@@ -8,21 +8,30 @@ class MainBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AllPokemons>(
       builder: (BuildContext context, AllPokemons value, Widget child) {
-        var all = value.getAll;
+        return FutureBuilder(
+          future: value.currentPage,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              var all = snapshot.data;
 
-        return ListView.separated(
-          padding: const EdgeInsets.only(
-            top: 20,
-            bottom: 20,
-          ),
-          itemCount: all.length,
-          itemBuilder: (BuildContext context, int index) {
-            return PokemonWidget(all[index]);
+              return ListView.separated(
+                padding: const EdgeInsets.only(
+                  top: 20,
+                  bottom: 20,
+                ),
+                itemCount: all.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return PokemonWidget(all[index]);
+                },
+                separatorBuilder: (BuildContext context, int index) => Divider(
+                  color: Colors.transparent,
+                  height: 12,
+                ),
+              );
+            }
+
+            return CircularProgressIndicator();
           },
-          separatorBuilder: (BuildContext context, int index) => Divider(
-            color: Colors.transparent,
-            height: 12,
-          ),
         );
       },
     );
