@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pokemon_pokedex/resources/provider/all_pokemons.dart';
 import 'package:pokemon_pokedex/screens/mainScreen/widgets/main_body.dart';
+import 'package:pokemon_pokedex/screens/drawer/main_drawer.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +13,7 @@ class MyHomePage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: MyColors.BLUE,
+      drawer: MainDrawer(),
       appBar: AppBar(
         bottom: PreferredSize(
           child: Container(),
@@ -27,10 +30,12 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: MyColors.DARK_BLUE,
         title: Text(
           "Pokémon",
-          style: TextStyle(
-            color: MyColors.YELLOW,
-            fontSize: 30,
-            fontWeight: FontWeight.w900,
+          style: GoogleFonts.lato(
+            textStyle: Theme.of(context).textTheme.headline6.copyWith(
+                  color: MyColors.YELLOW,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w900,
+                ),
           ),
         ),
       ),
