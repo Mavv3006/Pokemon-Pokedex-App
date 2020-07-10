@@ -11,6 +11,14 @@ class MainBody extends StatelessWidget {
         return FutureBuilder(
           future: value.currentPage,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
+            // the app is currently fetching information
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            // the app has data
             if (snapshot.hasData) {
               var all = snapshot.data;
 
@@ -30,7 +38,7 @@ class MainBody extends StatelessWidget {
               );
             }
 
-            return CircularProgressIndicator();
+            print('failed state');
           },
         );
       },
