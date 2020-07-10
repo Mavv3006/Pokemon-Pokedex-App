@@ -8,21 +8,38 @@ class MainBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AllPokemons>(
       builder: (BuildContext context, AllPokemons value, Widget child) {
-        var all = value.getAll;
+        return FutureBuilder(
+          future: value.currentPage,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            // the app is currently fetching information
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-        return ListView.separated(
-          padding: const EdgeInsets.only(
-            top: 20,
-            bottom: 20,
-          ),
-          itemCount: all.length,
-          itemBuilder: (BuildContext context, int index) {
-            return PokemonWidget(all[index]);
+            // the app has data
+            if (snapshot.hasData) {
+              var all = snapshot.data;
+
+              return ListView.separated(
+                padding: const EdgeInsets.only(
+                  top: 20,
+                  bottom: 20,
+                ),
+                itemCount: all.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return PokemonWidget(all[index]);
+                },
+                separatorBuilder: (BuildContext context, int index) => Divider(
+                  color: Colors.transparent,
+                  height: 12,
+                ),
+              );
+            }
+
+            print('failed state');
           },
-          separatorBuilder: (BuildContext context, int index) => Divider(
-            color: Colors.transparent,
-            height: 12,
-          ),
         );
       },
     );

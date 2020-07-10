@@ -1,5 +1,6 @@
 import 'package:pokemon_pokedex/models/pokemon/pokemon_sprites.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon_type.dart';
+import 'package:pokemon_pokedex/models/utility/additional_information.dart';
 import 'package:to_string/to_string.dart';
 
 part 'pokemon.g.dart';
@@ -21,6 +22,11 @@ class Pokemon {
           (e) => PokemonType.fromUrl(e['type']['url']),
         )
         .toList();
+  }
+
+  updateWithAdditionalInformation(AdditionalInformation additionalInformation) {
+    types = additionalInformation.types;
+    name = additionalInformation.name;
   }
 
   Pokemon({

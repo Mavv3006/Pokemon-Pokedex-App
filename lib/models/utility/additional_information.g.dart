@@ -1,11 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pokemon_type.dart';
+part of 'additional_information.dart';
 
 // **************************************************************************
 // ToStringGenerator
 // **************************************************************************
 
-String _$PokemonTypeToString(PokemonType o) {
-  return """PokemonType{id: ${o.id}, url: ${o.url}, name: ${o.name}, color: ${o.color}}""";
+String _$AdditionalInformationToString(AdditionalInformation o) {
+  return """AdditionalInformation{name: ${o.name}, type: ${o.types}}""";
 }

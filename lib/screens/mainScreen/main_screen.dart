@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_pokedex/resources/provider/all_pokemons.dart';
 import 'package:pokemon_pokedex/screens/mainScreen/widgets/main_body.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AllPokemons allPokemons = Provider.of<AllPokemons>(context);
+
     return Scaffold(
       backgroundColor: MyColors.BLUE,
       appBar: AppBar(
@@ -30,7 +34,53 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
       ),
-      body: MainBody(),
+      body: Stack(
+        children: <Widget>[
+          MainBody(),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 25,
+                bottom: 25,
+              ),
+              child: FloatingActionButton(
+                onPressed: allPokemons.currentPageNumber == 0
+                    ? null
+                    : allPokemons.previousPage,
+                child: Icon(
+                  Icons.navigate_before,
+                  color: MyColors.YELLOW,
+                  size: 30,
+                ),
+                // Disabled Button Color
+                backgroundColor: allPokemons.currentPageNumber == 0
+                    ? MyColors.BLUE_ACCENT
+                    : MyColors.DARK_BLUE,
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                right: 25,
+                bottom: 25,
+              ),
+              child: FloatingActionButton(
+                onPressed: allPokemons.nextPage,
+                // Active Button Color
+                backgroundColor: MyColors.DARK_BLUE,
+                child: Icon(
+                  Icons.navigate_next,
+                  color: MyColors.YELLOW,
+                  size: 30,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
