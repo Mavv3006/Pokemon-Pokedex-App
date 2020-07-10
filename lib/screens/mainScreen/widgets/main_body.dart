@@ -39,6 +39,7 @@ class MainBody extends StatelessWidget {
             }
 
             print('failed state');
+            return Container();
           },
         );
       },
