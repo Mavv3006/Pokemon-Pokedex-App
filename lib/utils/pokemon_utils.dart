@@ -6,4 +6,8 @@ class PokemonUtils {
       '/PokeAPI/sprites/master/sprites/pokemon/$id.png',
     );
   }
+
+  static int getTypeIdFromUrl(String url) {
+    return int.parse(url.substring(31, url.length - 1));
+  }
 }

@@ -1,11 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'additional_information.dart';
+part of 'language.dart';
 
 // **************************************************************************
 // ToStringGenerator
 // **************************************************************************
 
-String _$AdditionalInformationToString(AdditionalInformation o) {
-  return """AdditionalInformation{name: ${o.name}, types: ${o.types}}""";
+String _$LanguageToString(Language o) {
+  return """Language{shortCode: ${o.shortCode}, id: ${o.id}, name: ${o.name}}""";
 }

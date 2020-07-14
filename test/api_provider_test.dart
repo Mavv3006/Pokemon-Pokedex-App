@@ -7,9 +7,11 @@ import 'package:http/testing.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon_type.dart';
 import 'package:pokemon_pokedex/models/utility/additional_information.dart';
+import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
 import 'package:pokemon_pokedex/resources/api_provider.dart';
 
 import 'data/data.dart';
+import 'data/pokemon_data.dart';
 
 main() {
   test('Get basic information about Pokemon', () async {
@@ -115,6 +117,29 @@ main() {
     expect(list[0].id, 1);
     expect(list[1].id, 1);
   });
+
+  group('database functions -', () {
+    test('print 1 content', () async {
+      final ApiProvider client = ApiProvider();
+      client.client = MockClient(clientResponse);
+
+      PokemonBaseInformation list = await client.getBaseInformation(1);
+
+      // print(list);
+      expect(true, true);
+    });
+    test('print all content', () async {
+      final ApiProvider client = ApiProvider();
+      client.client = MockClient(clientResponse);
+
+      List<PokemonBaseInformation> list =
+          await client.getBaseInformationForAll();
+
+      // print(list.length);
+      // print(list);
+      expect(list.length, 4);
+    });
+  });
 }
 
 Future<Response> clientResponse(Request request) async {
@@ -124,6 +149,16 @@ Future<Response> clientResponse(Request request) async {
       .startsWith(client.baseUrl.toString() + 'pokemon/')) {
     return Response(
       json.encode(pokemon_1),
+      200,
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
+      },
+    );
+  } else if (request.url
+      .toString()
+      .endsWith(client.baseUrl.toString() + 'pokemon')) {
+    return Response(
+      json.encode(pokemon_data),
       200,
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
