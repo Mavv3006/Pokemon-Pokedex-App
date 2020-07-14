@@ -13,10 +13,11 @@ class PokemonBaseInformation {
   PokemonBaseInformation({
     this.name,
     this.id,
-    this.frontImage,
-    this.backImage,
     this.type1,
     this.type2,
     this.language,
-  });
+  })  : frontImage =
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$id.png',
+        backImage =
+            'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/$id.png';
 }

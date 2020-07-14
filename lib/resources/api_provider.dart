@@ -5,9 +5,10 @@ import 'package:http/http.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon_type.dart';
 import 'package:pokemon_pokedex/models/utility/additional_information.dart';
+import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
 
 class ApiProvider {
-  static const String BASE_URL = "https://pokeapi.co/api/v2/";
+  final Uri baseUrl = Uri.https('pokeapi.co', '/api/v2/');
   Client client = Client();
 
   Future<Pokemon> getSingle(int id) async {
@@ -20,7 +21,8 @@ class ApiProvider {
   }
 
   Future<Pokemon> getSingleBasicInformation(int id) async {
-    Response response = await client.get(BASE_URL + 'pokemon/$id');
+    Uri uri = baseUrl.replace(path: baseUrl.path + 'pokemon/$id');
+    Response response = await client.get(uri.toString());
     Map<String, dynamic> jsonResponse = json.decode(response.body);
     return Pokemon.fromJson(jsonResponse);
   }
@@ -31,6 +33,8 @@ class ApiProvider {
     return Pokemon.fromJson(jsonResponse);
   }
 
+  /// Returns additional information about a specific information.
+  /// These include the name and information about the type.
   Future<AdditionalInformation> getAdditionalInformation(
       Pokemon pokemon) async {
     AdditionalInformation additionalInformation = AdditionalInformation();
@@ -41,8 +45,10 @@ class ApiProvider {
     return additionalInformation;
   }
 
+  /// Returns the name of the pokemon identified by the id
   Future<String> getName(int id) async {
-    Response response = await client.get(BASE_URL + 'pokemon-species/$id');
+    Uri uri = baseUrl.replace(path: baseUrl.path + 'pokemon-species/$id');
+    Response response = await client.get(uri.toString());
     Map<String, dynamic> jsonResponse = json.decode(response.body);
     List<dynamic> names = jsonResponse['names'];
     List<dynamic> name =
@@ -56,6 +62,7 @@ class ApiProvider {
     return PokemonType.fromJson(json: jsonResponse, url: url);
   }
 
+  /// Returns all the information about multiple pokemon
   Future<List<Pokemon>> getMultiple({
     @required int offset,
     @required int limit,
@@ -73,12 +80,19 @@ class ApiProvider {
     return list;
   }
 
+  /// Returns basic Information about multiple pokemon
   Future<List<Pokemon>> getMultipleBasicInformation({
     @required int limit,
     @required int offset,
   }) async {
-    String url = BASE_URL + 'pokemon?limit=$limit&offset=$offset';
-    Response response = await client.get(url);
+    Uri uri = baseUrl.replace(
+      path: baseUrl.path + 'pokemon',
+      queryParameters: {
+        'limit': limit.toString(),
+        'offset': offset.toString(),
+      },
+    );
+    Response response = await client.get(uri);
     Map<String, dynamic> jsonResponse = json.decode(response.body);
     List<Pokemon> pokemonList = [];
     for (var element in jsonResponse['results']) {
@@ -86,5 +100,18 @@ class ApiProvider {
       pokemonList.add(pokemon);
     }
     return pokemonList;
+  }
+
+  Future<PokemonBaseInformation> getBaseInformation(int id) async {}
+
+  Future<int> getPokemonCount() async {}
+
+  Future<List<PokemonBaseInformation>> getBaseInformationForAll() async {
+    final int count = await getPokemonCount();
+    List<PokemonBaseInformation> list = [];
+    for (int i = 1; i < count; i++) {
+      list.add(await getBaseInformation(i));
+    }
+    return list;
   }
 }

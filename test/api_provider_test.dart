@@ -27,8 +27,8 @@ main() {
     final ApiProvider client = ApiProvider();
     client.client = MockClient(clientResponse);
 
-    final Pokemon pokemon = await client
-        .getSingleBasicInformationFromUrl(ApiProvider.BASE_URL + 'pokemon/1');
+    final Pokemon pokemon = await client.getSingleBasicInformationFromUrl(
+        client.baseUrl.toString() + 'pokemon/1');
 
     expect(pokemon.id, 1);
     expect(pokemon.sprites.backShinyFemale, null);
@@ -118,7 +118,10 @@ main() {
 }
 
 Future<Response> clientResponse(Request request) async {
-  if (request.url.toString().startsWith(ApiProvider.BASE_URL + 'pokemon/')) {
+  final client = ApiProvider();
+  if (request.url
+      .toString()
+      .startsWith(client.baseUrl.toString() + 'pokemon/')) {
     return Response(
       json.encode(pokemon_1),
       200,
@@ -128,7 +131,7 @@ Future<Response> clientResponse(Request request) async {
     );
   } else if (request.url
       .toString()
-      .startsWith(ApiProvider.BASE_URL + 'pokemon-species')) {
+      .startsWith(client.baseUrl.toString() + 'pokemon-species')) {
     return Response(
       json.encode(pokemon_species_1),
       200,
@@ -136,7 +139,9 @@ Future<Response> clientResponse(Request request) async {
         HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
       },
     );
-  } else if (request.url.toString().startsWith(ApiProvider.BASE_URL + 'type')) {
+  } else if (request.url
+      .toString()
+      .startsWith(client.baseUrl.toString() + 'type')) {
     return Response(
       json.encode(pokemon_type_1),
       200,
@@ -146,7 +151,7 @@ Future<Response> clientResponse(Request request) async {
     );
   } else if (request.url
       .toString()
-      .startsWith(ApiProvider.BASE_URL + 'pokemon?')) {
+      .startsWith(client.baseUrl.toString() + 'pokemon?')) {
     return Response(
       json.encode(pokemon_list),
       200,

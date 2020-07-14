@@ -15,7 +15,7 @@ class PokemonImages extends StatelessWidget {
       width: double.infinity,
       height: 120,
       child: Image.network(
-        pokemon.sprites.frontDefault,
+        pokemon.sprites.frontDefault.toString(),
         fit: BoxFit.contain,
       ),
     );

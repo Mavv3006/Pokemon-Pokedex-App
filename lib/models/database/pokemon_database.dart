@@ -1,8 +1,10 @@
 import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
+import 'package:pokemon_pokedex/resources/api_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class PokemonDatabase {
   final dbName = "pokemonBaseInformation";
+  final ApiProvider apiProvider = ApiProvider();
   Database database;
 
   // table names
