@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_pokedex/models/database/pokemon_database.dart';
 import 'package:pokemon_pokedex/screens/drawer/widgets/drawer_tile.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
 
@@ -9,7 +10,17 @@ class MainDrawer extends StatelessWidget {
       isActive: true,
     ),
     DrawerTile(title: "Suchen"),
-    DrawerTile(title: "Einstellungen"),
+    DrawerTile(
+      title: "Einstellungen",
+      onTap: () => print("hi"),
+    ),
+    DrawerTile(
+      title: "Update DB",
+      onTap: () {
+        final PokemonDatabase database = PokemonDatabase();
+        database.updateBaseInformation();
+      },
+    ),
   ];
 
   @override

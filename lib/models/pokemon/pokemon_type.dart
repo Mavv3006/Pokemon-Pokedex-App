@@ -19,11 +19,12 @@ class PokemonType {
     @required Map<String, dynamic> json,
     @required String url,
   }) {
-    this.id = json['id'];
+    this.id = json['id'] as int;
     this.url = url;
-    var names = json['names'] as List;
+    List<dynamic> names = json['names'] as List<dynamic>;
     name = names
-        .map((e) => Name.fromJson(e))
+        .cast<Map<String, dynamic>>()
+        .map((Map<String, dynamic> e) => Name.fromJson(e))
         .toList()
         .where((element) => element.language.name == 'de')
         .elementAt(0)

@@ -13,13 +13,13 @@ class Pokemon {
   PokemonSprites sprites;
 
   Pokemon.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    sprites = PokemonSprites.fromJson(json['sprites']);
+    id = json['id'] as int;
+    sprites = PokemonSprites.fromJson(json['sprites'] as Map<String, dynamic>);
 
     var typeList = json['types'] as List;
     types = typeList
         .map(
-          (e) => PokemonType.fromUrl(e['type']['url']),
+          (e) => PokemonType.fromUrl(e['type']['url'] as String),
         )
         .toList();
   }

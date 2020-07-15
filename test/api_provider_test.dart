@@ -1,8 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon_type.dart';
@@ -10,8 +6,7 @@ import 'package:pokemon_pokedex/models/utility/additional_information.dart';
 import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
 import 'package:pokemon_pokedex/resources/api_provider.dart';
 
-import 'data/data.dart';
-import 'data/pokemon_data.dart';
+import 'data/client_response.dart';
 
 main() {
   test('Get basic information about Pokemon', () async {
@@ -118,83 +113,62 @@ main() {
     expect(list[1].id, 1);
   });
 
-  group('database functions -', () {
-    test('print 1 content', () async {
+  group('database functions', () {
+    test('getBaseInformation()', () async {
       final ApiProvider client = ApiProvider();
       client.client = MockClient(clientResponse);
 
-      PokemonBaseInformation list = await client.getBaseInformation(1);
-
-      // print(list);
-      expect(true, true);
+      PokemonBaseInformation information = await client.getBaseInformation(1);
+      expect(information.id, 1);
+      expect(information.name, 'Bisasam');
+      expect(information.language.id, 6);
+      expect(information.type1, isNotNull);
+      expect(information.type1.id, 12);
+      expect(information.type2, isNotNull);
+      expect(information.type2.id, 4);
     });
-    test('print all content', () async {
+
+    test('getBaseInformationForAll()', () async {
       final ApiProvider client = ApiProvider();
       client.client = MockClient(clientResponse);
 
       List<PokemonBaseInformation> list =
           await client.getBaseInformationForAll();
 
-      // print(list.length);
-      // print(list);
       expect(list.length, 4);
+
+      for (int i = 0; i < list.length; i++,) {
+        expect(list[i].id, i + 1);
+        expect(list[i].language.id, 6);
+        expect(list[i].name, 'Bisasam');
+        expect(list[i].language.id, 6);
+        expect(list[i].type1, isNotNull);
+        expect(list[i].type1.id, 12);
+        expect(list[i].type2, isNotNull);
+        expect(list[i].type2.id, 4);
+      }
+    });
+
+    test('getPokemonCount()', () async {
+      final ApiProvider client = ApiProvider();
+      client.client = MockClient(clientResponse);
+
+      int count = await client.getPokemonCount();
+
+      expect(count, 4);
+    });
+
+    test('getTypeById()', () async {
+      final ApiProvider client = ApiProvider();
+      client.client = MockClient(clientResponse);
+
+      List<PokemonType> types = await client.getTypeByPokemonId(1);
+
+      expect(types.length, 2);
+      expect(types[0].id, 1);
+      expect(types[1].id, 1);
+      expect(types[0].name, isNotNull);
+      expect(types[1].name, isNotNull);
     });
   });
-}
-
-Future<Response> clientResponse(Request request) async {
-  final client = ApiProvider();
-  if (request.url
-      .toString()
-      .startsWith(client.baseUrl.toString() + 'pokemon/')) {
-    return Response(
-      json.encode(pokemon_1),
-      200,
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
-      },
-    );
-  } else if (request.url
-      .toString()
-      .endsWith(client.baseUrl.toString() + 'pokemon')) {
-    return Response(
-      json.encode(pokemon_data),
-      200,
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
-      },
-    );
-  } else if (request.url
-      .toString()
-      .startsWith(client.baseUrl.toString() + 'pokemon-species')) {
-    return Response(
-      json.encode(pokemon_species_1),
-      200,
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
-      },
-    );
-  } else if (request.url
-      .toString()
-      .startsWith(client.baseUrl.toString() + 'type')) {
-    return Response(
-      json.encode(pokemon_type_1),
-      200,
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
-      },
-    );
-  } else if (request.url
-      .toString()
-      .startsWith(client.baseUrl.toString() + 'pokemon?')) {
-    return Response(
-      json.encode(pokemon_list),
-      200,
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8'
-      },
-    );
-  } else {
-    return Response(null, 404);
-  }
 }

@@ -25,13 +25,15 @@ class ApiProvider {
   Future<Pokemon> getSingleBasicInformation(int id) async {
     Uri uri = baseUrl.replace(path: baseUrl.path + 'pokemon/$id');
     Response response = await client.get(uri.toString());
-    Map<String, dynamic> jsonResponse = json.decode(response.body);
+    Map<String, dynamic> jsonResponse =
+        json.decode(response.body) as Map<String, dynamic>;
     return Pokemon.fromJson(jsonResponse);
   }
 
   Future<Pokemon> getSingleBasicInformationFromUrl(String url) async {
     Response response = await client.get(url);
-    Map<String, dynamic> jsonResponse = json.decode(response.body);
+    Map<String, dynamic> jsonResponse =
+        json.decode(response.body) as Map<String, dynamic>;
     return Pokemon.fromJson(jsonResponse);
   }
 
@@ -47,33 +49,39 @@ class ApiProvider {
     return additionalInformation;
   }
 
-  /// Returns the name of the pokemon identified by the id
+  /// Returns the name of the pokemon identified by the id.
   Future<String> getName(int id) async {
     Uri uri = baseUrl.replace(path: baseUrl.path + 'pokemon-species/$id');
     Response response = await client.get(uri.toString());
-    Map<String, dynamic> jsonResponse = json.decode(response.body);
-    List<dynamic> names = jsonResponse['names'];
+    Map<String, dynamic> jsonResponse =
+        json.decode(response.body) as Map<String, dynamic>;
+    List<dynamic> names = jsonResponse['names'] as List<dynamic>;
     List<dynamic> name =
         names.where((element) => element['language']['name'] == 'de').toList();
-    return name[0]['name'];
+    return name[0]['name'] as String;
   }
 
   Future<PokemonType> getType(String url) async {
     Response response = await client.get(url);
-    Map<String, dynamic> jsonResponse = json.decode(response.body);
+    Map<String, dynamic> jsonResponse =
+        json.decode(response.body) as Map<String, dynamic>;
     return PokemonType.fromJson(json: jsonResponse, url: url);
   }
 
-  Future<List<PokemonType>> getTypeById(int id) async {
+  /// Returns the Id and URL of the types for the pokemon identified by the Id.
+  Future<List<PokemonType>> getTypeByPokemonId(int id) async {
     Uri uri = baseUrl.replace(path: baseUrl.path + 'pokemon/$id');
     Response response = await client.get(uri);
-    Map<String, dynamic> jsonResponse = json.decode(response.body);
+    Map<String, dynamic> jsonResponse =
+        json.decode(response.body) as Map<String, dynamic>;
     var typeList = jsonResponse['types'] as List;
     List<PokemonType> list = [];
     for (var type in typeList) {
-      String url = type['type']['url'];
-      int id = PokemonUtils.getTypeIdFromUrl(url);
-      list.add(PokemonType(id: id, url: url));
+      String url = type['type']['url'] as String;
+      list.add(PokemonType(
+        url: url,
+        id: PokemonUtils.getTypeIdFromUrl(url),
+      ));
     }
     return list;
   }
@@ -109,21 +117,24 @@ class ApiProvider {
       },
     );
     Response response = await client.get(uri);
-    Map<String, dynamic> jsonResponse = json.decode(response.body);
+    Map<String, dynamic> jsonResponse =
+        json.decode(response.body) as Map<String, dynamic>;
     List<Pokemon> pokemonList = [];
     for (var element in jsonResponse['results']) {
-      Pokemon pokemon = await getSingleBasicInformationFromUrl(element['url']);
+      Pokemon pokemon =
+          await getSingleBasicInformationFromUrl(element['url'] as String);
       pokemonList.add(pokemon);
     }
     return pokemonList;
   }
 
+  /// Returns the information for the pokemon with the Id needed to build
+  /// the UI only from the database.
   Future<PokemonBaseInformation> getBaseInformation(int id) async {
     String _name = await getName(id);
-    List<PokemonType> types = await getTypeById(id);
+    List<PokemonType> types = await getTypeByPokemonId(id);
     var type2 = types.length == 2 ? types[1] : null;
     return PokemonBaseInformation(
-      // TODO: add language from Provider
       id: id,
       name: _name,
       type1: types[0],
@@ -132,19 +143,38 @@ class ApiProvider {
     );
   }
 
+  /// Counts the amount of pokemon available
   Future<int> getPokemonCount() async {
     Uri _uri = baseUrl.replace(path: baseUrl.path + 'pokemon');
     Response _response = await client.get(_uri);
-    Map<String, dynamic> jsonResponse = json.decode(_response.body);
+    Map<String, dynamic> jsonResponse =
+        json.decode(_response.body) as Map<String, dynamic>;
     return jsonResponse['count'] as int;
   }
 
   Future<List<PokemonBaseInformation>> getBaseInformationForAll() async {
-    final int _count = await getPokemonCount();
+    // final int _count = await getPokemonCount();
+    final int _count = 10;
     List<PokemonBaseInformation> list = [];
     for (int i = 1; i <= _count; i++) {
       list.add(await getBaseInformation(i));
     }
     return list;
+  }
+
+  /// Returns a List of all the available pokemon types.
+  Future<List<PokemonType>> getAllTypes() async {
+    Uri url = baseUrl.replace(path: baseUrl.path + 'type');
+    Response _reponse = await client.get(url);
+    Map<String, dynamic> jsonResponse =
+        json.decode(_reponse.body) as Map<String, dynamic>;
+    List<Map<String, dynamic>> results =
+        jsonResponse['results'] as List<Map<String, dynamic>>;
+    List<PokemonType> types = [];
+    for (Map<String, dynamic> type in results) {
+      PokemonType pokemonType = await getType(type['url'] as String);
+      types.add(pokemonType);
+    }
+    return types;
   }
 }

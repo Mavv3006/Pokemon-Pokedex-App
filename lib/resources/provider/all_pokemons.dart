@@ -31,10 +31,10 @@ class AllPokemons extends ChangeNotifier {
   }
 
   /// Getter for the currentPageNumber.
-  get currentPageNumber => _currentPage;
+  int get currentPageNumber => _currentPage;
 
   /// Getter for the pokemon on the current page.
-  get currentPage async => _getCurrentPage(_currentPage);
+  Future<List<Pokemon>> get currentPage async => _getCurrentPage(_currentPage);
 
   /// Fetches the pokemon for the current page.
   Future<List<Pokemon>> _getCurrentPage(int page) async {

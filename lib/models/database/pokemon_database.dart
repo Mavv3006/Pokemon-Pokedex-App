@@ -2,9 +2,11 @@ import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
 import 'package:pokemon_pokedex/resources/api_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+// TODO: make class work
+
 class PokemonDatabase {
   final dbName = "pokemonBaseInformation";
-  final ApiProvider apiProvider = ApiProvider();
+  ApiProvider apiProvider;
   Database database;
 
   // table names
@@ -14,50 +16,60 @@ class PokemonDatabase {
   final String _languages = 'languages';
 
   // column names
-  final String _namesPokemonId = 'names.pokemonId';
-  final String _namesLanguageId = 'names.languageId';
-  final String _namesName = 'names.name';
+  final String _namesPokemonId = 'names_pokemonId';
+  final String _namesLanguageId = 'names_languageId';
+  final String _namesName = 'names_name';
 
-  final String _languagesId = 'languages.id';
-  final String _languagesShortCode = 'languages.shortCode';
-  final String _languagesName = 'languages.name';
+  final String _languagesId = 'languages_id';
+  final String _languagesShortCode = 'languages_shortCode';
+  final String _languagesName = 'languages_name';
 
-  final String _typesTypeId = 'types.typeId';
-  final String _typesLanguageId = 'types.languageId';
-  final String _typesName = 'types.name';
+  final String _typesTypeId = 'types_typeId';
+  final String _typesLanguageId = 'types_languageId';
+  final String _typesName = 'types_name';
 
-  final String _pokemonsId = 'pokemons.id';
-  final String _pokemonsBack = 'pokemons.back';
-  final String _pokemonsFront = 'pokemons.front';
-  final String _pokemonsType1Id = 'pokemons.type1Id';
-  final String _pokemonsType2Id = 'pokemons.type2Id';
+  final String _pokemonsId = 'pokemons_id';
+  final String _pokemonsBack = 'pokemons_back';
+  final String _pokemonsFront = 'pokemons_front';
+  final String _pokemonsType1Id = 'pokemons_type1Id';
+  final String _pokemonsType2Id = 'pokemons_type2Id';
 
-  PokemonDatabase() {
+  PokemonDatabase({ApiProvider apiProvider}) {
     _init();
+
+    // init apiProvider
+    if (apiProvider != null) {
+      this.apiProvider = apiProvider;
+    } else {
+      this.apiProvider = ApiProvider();
+    }
   }
 
   _init() async {
+    await Sqflite.devSetDebugModeOn(true);
     database = await openDatabase(
       '$dbName.db',
-      onCreate: (Database db, int version) {
-        db.execute('''
-          create table $_languages (
-            $_languagesId integer primary key ,
-            $_languagesName text not null,
-            $_languagesShortCode text not null
+      version: 1,
+      onCreate: (Database db, int version) async {
+        await db.execute('''
+          CREATE TABLE $_languages (
+            $_languagesId INTEGER PRIMARY KEY,
+            $_languagesName TEXT NOT NULL ,
+            $_languagesShortCode TEXT NOT NULL
           )
         ''');
-        db.execute('''
+        await db.execute('''
           create table $_types (
-            $_typesLanguageId integer primary key,
-            $_typesTypeId integer primary key,
+            $_typesLanguageId integer,
+            $_typesTypeId integer,
             $_typesName text not null,
+            primary key ($_typesLanguageId, $_typesTypeId),
             constraint fk_language
               foreign key ($_typesLanguageId)
               references $_languages ($_languagesId)
           )
         ''');
-        db.execute('''
+        await db.execute('''
           create table $_pokemons (
             $_pokemonsId integer primary key,
             $_pokemonsType1Id text not null,
@@ -72,11 +84,12 @@ class PokemonDatabase {
               references $_types ($_typesTypeId)
           )
         ''');
-        db.execute('''
+        await db.execute('''
           create table $_names (
-            $_namesPokemonId integer primary key,
-            $_namesLanguageId integer primary key,
+            $_namesPokemonId integer,
+            $_namesLanguageId integer,
             $_namesName text not null,
+            primary key ($_namesPokemonId, $_namesLanguageId),
             constraint fk_language
               foreign key ($_namesLanguageId)
               references $_languages ($_languagesId)
@@ -85,13 +98,16 @@ class PokemonDatabase {
               references $_pokemons ($_pokemonsId)
           )
         ''');
+        print("database init complete");
       },
     );
   }
 
-  updateBaseInformation() async {
+  void updateBaseInformation() async {
+    print("database download started");
     List<PokemonBaseInformation> list = await _getInformationFromApi();
-
+    print("database download complete");
+    print("database insert started");
     for (PokemonBaseInformation pokemon in list) {
       if (await _pokemonExists(pokemon)) {
         _updatePokemon(pokemon);
@@ -99,9 +115,12 @@ class PokemonDatabase {
         _insertPokemon(pokemon);
       }
     }
+    print("database insert completed");
   }
 
-  Future<List<PokemonBaseInformation>> _getInformationFromApi() async {}
+  Future<List<PokemonBaseInformation>> _getInformationFromApi() async {
+    return await apiProvider.getBaseInformationForAll();
+  }
 
   Future<bool> _pokemonExists(PokemonBaseInformation pokemon) async {
     var result = await database.query(
@@ -119,14 +138,24 @@ class PokemonDatabase {
 
   _insertPokemon(PokemonBaseInformation pokemon) async {
     database.transaction((Transaction txn) async {
-      await txn.insert(
+      List<Map<String, dynamic>> languages = await txn.query(
         _languages,
-        {
-          _languagesId: pokemon.language.id,
-          _languagesName: pokemon.language.name,
-          _languagesShortCode: pokemon.language.shortCode,
-        },
+        columns: ['count(*)'],
+        where: '$_languagesId = ?',
+        whereArgs: [pokemon.language.id],
       );
+      Map<String, dynamic> language = languages[0];
+      int languageCount = language['count(*)'] as int;
+      if (languageCount != 1) {
+        await txn.insert(
+          _languages,
+          {
+            _languagesId: pokemon.language.id,
+            _languagesName: pokemon.language.name,
+            _languagesShortCode: pokemon.language.shortCode,
+          },
+        );
+      }
       await txn.insert(
         _types,
         {
@@ -164,6 +193,8 @@ class PokemonDatabase {
         },
       );
     });
+
+    print(await database.rawQuery('SELECT COUNT(*) FROM $_pokemons'));
   }
 
   _updatePokemon(PokemonBaseInformation pokemon) async {
@@ -216,5 +247,13 @@ class PokemonDatabase {
     // });
   }
 
-  Future<PokemonBaseInformation> getBaseInformation(int pokemonId) async {}
+  /// retrieves the data from the database.
+  // Future<PokemonBaseInformation> getBaseInformation(int pokemonId) async {}
+
+  Future<void> _insertTypes() async {
+    //TODO
+  }
+  Future<void> _insertLanguages() async {
+    //TODO
+  }
 }

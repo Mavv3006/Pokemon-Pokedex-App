@@ -22,4 +22,12 @@ class Language {
   String toString() {
     return _$LanguageToString(this);
   }
+
+  /// Returns all available languages.
+  static List<Language> getAll() {
+    return [
+      Language.english(),
+      Language.german(),
+    ];
+  }
 }

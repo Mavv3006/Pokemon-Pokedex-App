@@ -3,7 +3,7 @@ class NamedAPIResource {
   String url;
 
   NamedAPIResource.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    url = json['url'];
+    name = json['name'] as String;
+    url = json['url'] as String;
   }
 }

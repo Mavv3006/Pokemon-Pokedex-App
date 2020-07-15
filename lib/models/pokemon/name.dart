@@ -5,7 +5,8 @@ class Name {
   NamedAPIResource language;
 
   Name.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    language = NamedAPIResource.fromJson(json['language']);
+    name = json['name'] as String;
+    language =
+        NamedAPIResource.fromJson(json['language'] as Map<String, dynamic>);
   }
 }
