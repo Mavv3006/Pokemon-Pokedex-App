@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:pokemon_pokedex/models/language.dart';
+import 'package:pokemon_pokedex/models/pokemon/name.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon_type.dart';
 import 'package:pokemon_pokedex/models/utility/additional_information.dart';
@@ -177,4 +178,6 @@ class ApiProvider {
     }
     return types;
   }
+
+  Future<List<Name>> getAllNames() async {}
 }

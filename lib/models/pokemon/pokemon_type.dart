@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/color_information.dart';
-import 'package:pokemon_pokedex/models/pokemon/name.dart';
+import 'package:pokemon_pokedex/models/utility/name.dart';
 import 'package:pokemon_pokedex/utils/pokemon_type_colors.dart';
 import 'package:to_string/to_string.dart';
 
@@ -31,14 +31,15 @@ class PokemonType {
         .name;
     this.color = PokemonTypeColors.getById(id);
   }
-  @override
-  String toString() {
-    return _$PokemonTypeToString(this);
-  }
 
   PokemonType({
     this.id,
     this.name,
     this.url,
   }) : color = PokemonTypeColors.getById(id);
+
+  @override
+  String toString() {
+    return _$PokemonTypeToString(this);
+  }
 }

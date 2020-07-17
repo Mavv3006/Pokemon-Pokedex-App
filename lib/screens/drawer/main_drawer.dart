@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_pokedex/models/database/pokemon_database.dart';
+import 'package:pokemon_pokedex/models/database/base_information_database.dart';
 import 'package:pokemon_pokedex/screens/drawer/widgets/drawer_tile.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
 
@@ -17,7 +17,7 @@ class MainDrawer extends StatelessWidget {
     DrawerTile(
       title: "Update DB",
       onTap: () {
-        final PokemonDatabase database = PokemonDatabase();
+        final BaseInformationDatabase database = BaseInformationDatabase();
         database.updateBaseInformation();
       },
     ),
