@@ -13,6 +13,10 @@ import 'package:pokemon_pokedex/utils/pokemon_utils.dart';
 class ApiProvider {
   final Uri baseUrl = Uri.https('pokeapi.co', '/api/v2/');
   Client client = Client();
+  int _pokemonCount = 10;
+  bool _updatedPokemonCount = false;
+
+  int get pokemonCount => _pokemonCount;
 
   Future<Pokemon> getSingle(int id) async {
     Pokemon pokemon = await getSingleBasicInformation(id);
@@ -79,9 +83,10 @@ class ApiProvider {
     List<PokemonType> list = [];
     for (var type in typeList) {
       String url = type['type']['url'] as String;
+      int id = PokemonUtils.getTypeIdFromUrl(url);
       list.add(PokemonType(
         url: url,
-        id: PokemonUtils.getTypeIdFromUrl(url),
+        id: id,
       ));
     }
     return list;
@@ -145,19 +150,19 @@ class ApiProvider {
   }
 
   /// Counts the amount of pokemon available
-  Future<int> getPokemonCount() async {
+  Future<void> getPokemonCount() async {
+    _updatedPokemonCount = true;
     Uri _uri = baseUrl.replace(path: baseUrl.path + 'pokemon');
     Response _response = await client.get(_uri);
     Map<String, dynamic> jsonResponse =
         json.decode(_response.body) as Map<String, dynamic>;
-    return jsonResponse['count'] as int;
+    _pokemonCount = jsonResponse['count'] as int;
   }
 
   Future<List<PokemonBaseInformation>> getBaseInformationForAll() async {
-    // final int _count = await getPokemonCount();
-    final int _count = 10;
+    // if (!_updatedPokemonCount) await getPokemonCount();
     List<PokemonBaseInformation> list = [];
-    for (int i = 1; i <= _count; i++) {
+    for (int i = 1; i <= _pokemonCount; i++) {
       list.add(await getBaseInformation(i));
     }
     return list;
@@ -179,5 +184,15 @@ class ApiProvider {
     return types;
   }
 
-  Future<List<Name>> getAllNames() async {}
+  Future<List<Name>> getAllNames() async {
+    // if (!_updatedPokemonCount) await getPokemonCount();
+    List<Name> namesList = [];
+
+    for (int i = 1; i <= _pokemonCount; i++) {
+      String name = await getName(i);
+      namesList.add(Name(name, i, Language.german().id));
+    }
+
+    return namesList;
+  }
 }

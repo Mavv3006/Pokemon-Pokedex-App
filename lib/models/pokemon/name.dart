@@ -1,5 +1,7 @@
 class Name {
-  String name;
-  int pokemonId;
-  int languageId;
+  final String name;
+  final int pokemonId;
+  final int languageId;
+
+  Name(this.name, this.pokemonId, this.languageId);
 }

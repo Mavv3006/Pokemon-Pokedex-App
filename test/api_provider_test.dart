@@ -135,7 +135,7 @@ main() {
       List<PokemonBaseInformation> list =
           await client.getBaseInformationForAll();
 
-      expect(list.length, 4);
+      expect(list.length, 10);
 
       for (int i = 0; i < list.length; i++,) {
         expect(list[i].id, i + 1);
@@ -153,9 +153,11 @@ main() {
       final ApiProvider client = ApiProvider();
       client.client = MockClient(clientResponse);
 
-      int count = await client.getPokemonCount();
+      expect(client.pokemonCount, 10);
 
-      expect(count, 4);
+      await client.getPokemonCount();
+
+      expect(client.pokemonCount, 4);
     });
 
     test('getTypeById()', () async {
@@ -165,10 +167,10 @@ main() {
       List<PokemonType> types = await client.getTypeByPokemonId(1);
 
       expect(types.length, 2);
-      expect(types[0].id, 1);
-      expect(types[1].id, 1);
-      expect(types[0].name, isNotNull);
-      expect(types[1].name, isNotNull);
+      expect(types[0].id, 12);
+      expect(types[1].id, 4);
+      expect(types[0].name, isNull);
+      expect(types[1].name, isNull);
     });
   });
 }
