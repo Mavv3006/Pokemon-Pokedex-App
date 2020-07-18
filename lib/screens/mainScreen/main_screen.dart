@@ -41,7 +41,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Stack(
         children: <Widget>[
-          // MainBody(),
+          MainBody(),
           Align(
             alignment: Alignment.bottomLeft,
             child: Padding(
