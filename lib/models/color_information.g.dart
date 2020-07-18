@@ -1,11 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'additional_information.dart';
+part of 'color_information.dart';
 
 // **************************************************************************
 // ToStringGenerator
 // **************************************************************************
 
-String _$AdditionalInformationToString(AdditionalInformation o) {
-  return """AdditionalInformation{name: ${o.name}, types: ${o.types}}""";
+String _$ColorInformationToString(ColorInformation o) {
+  return """ColorInformation{color: ${o.color}, luminance: ${o.luminance}, textColor: ${o.textColor}}""";
 }

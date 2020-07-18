@@ -13,13 +13,13 @@ class PokemonSprites {
   String backShinyFemale;
 
   PokemonSprites.fromJson(Map<String, dynamic> json) {
-    backDefault = json['back_default'];
-    backFemale = json['back_female'];
-    backShinyFemale = json['back_shiny_female'];
-    frontDefault = json['front_default'];
-    frontFemale = json['front_female'];
-    frontShiny = json['front_shiny'];
-    frontShinyFemale = json['front_shiny_female'];
+    backDefault = json['back_default'] as String;
+    backFemale = json['back_female'] as String;
+    backShinyFemale = json['back_shiny_female'] as String;
+    frontDefault = json['front_default'] as String;
+    frontFemale = json['front_female'] as String;
+    frontShiny = json['front_shiny'] as String;
+    frontShinyFemale = json['front_shiny_female'] as String;
   }
 
   PokemonSprites({

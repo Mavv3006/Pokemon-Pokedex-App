@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/resources/provider/all_pokemons.dart';
 import 'package:pokemon_pokedex/screens/mainScreen/widgets/pokemon_widget.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class MainBody extends StatelessWidget {
 
             // the app has data
             if (snapshot.hasData) {
-              var all = snapshot.data;
+              List<Pokemon> all = snapshot.data as List<Pokemon>;
 
               return ListView.separated(
                 padding: const EdgeInsets.only(

@@ -5,9 +5,11 @@ import 'package:pokemon_pokedex/utils/constants.dart';
 class DrawerTile extends StatelessWidget {
   final String title;
   final bool isActive;
+  final VoidCallback onTap;
 
   const DrawerTile({
     Key key,
+    this.onTap,
     @required this.title,
     this.isActive = false,
   }) : super(key: key);
@@ -18,7 +20,7 @@ class DrawerTile extends StatelessWidget {
       alignment: Alignment.topCenter,
       child: GestureDetector(
         //TODO: implement routing
-        onTap: () => print(this.title),
+        onTap: onTap,
         child: Container(
           width: 180,
           height: 50,
