@@ -174,8 +174,9 @@ class ApiProvider {
     Response _reponse = await client.get(url);
     Map<String, dynamic> jsonResponse =
         json.decode(_reponse.body) as Map<String, dynamic>;
+    List<dynamic> jsonResults = jsonResponse['results'] as List<dynamic>;
     List<Map<String, dynamic>> results =
-        jsonResponse['results'] as List<Map<String, dynamic>>;
+        jsonResults.cast<Map<String, dynamic>>();
     List<PokemonType> types = [];
     for (Map<String, dynamic> type in results) {
       PokemonType pokemonType = await getType(type['url'] as String);
