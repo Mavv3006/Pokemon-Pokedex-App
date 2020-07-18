@@ -13,8 +13,6 @@ class BaseInformationDatabase {
   Database database;
 
   BaseInformationDatabase({ApiProvider apiProvider}) {
-    _init();
-
     // init apiProvider
     if (apiProvider != null) {
       this.apiProvider = apiProvider;
@@ -25,7 +23,7 @@ class BaseInformationDatabase {
 
 // Init Database ---------------------------------------------------------------
 
-  _init() async {
+  Future<void> init() async {
     // await Sqflite.devSetDebugModeOn(true);
     String databasePath = await getDatabasesPath();
     database = await openDatabase(
@@ -193,12 +191,24 @@ class BaseInformationDatabase {
 // Read methods ----------------------------------------------------------------
 
   Future<List<PokemonBaseInformation>> getBaseInformation() async {
-    return _readPokemon();
-  }
-
-  Future<List<PokemonBaseInformation>> _readPokemon() async {
-    final String sql = "SELECT * FROM $pokemons";
+    final String sql = """
+      select 	p.$pokemonsId , 
+        n.$namesName ,
+        p.$pokemonsFront , 
+        p.$pokemonsBack,
+        t2.$typesTypeId ,
+        t2.$typesName ,
+        t3.$typesName ,
+        t3.$typesTypeId 
+      from $pokemons p 
+      inner join $names n on n.$namesPokemonId =p.$pokemonsId 
+      inner join $types t2 on t2.$typesTypeId =p.$pokemonsType1Id
+      inner join $types t3 on t3.$typesTypeId =p.$pokemonsType2Id 
+      where n.$namesLanguageId = 6 and t2.$typesLanguageId = 6 and t3.$typesLanguageId = 6
+      ORDER BY p.$pokemonsId 
+    """;
     List<Map<String, dynamic>> map = await database.rawQuery(sql);
+    print(map.toString());
     List<PokemonBaseInformation> pokemon =
         map.map((e) => PokemonBaseInformation().fromMap(e)).toList();
     return pokemon;
@@ -206,4 +216,25 @@ class BaseInformationDatabase {
 
 // Helper methods --------------------------------------------------------------
 
+  Future printContent() async {
+    print(await database.query(languages, columns: ['*']));
+    print(await database.query(
+      types,
+      columns: ['*'],
+      where: '$typesTypeId <= ?',
+      whereArgs: [5],
+    ));
+    print(await database.query(
+      pokemons,
+      columns: ['*'],
+      where: '$pokemonsId <= ?',
+      whereArgs: [5],
+    ));
+    print(await database.query(
+      names,
+      columns: ['*'],
+      where: '$namesPokemonId <= ?',
+      whereArgs: [5],
+    ));
+  }
 }

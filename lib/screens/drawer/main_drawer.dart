@@ -16,9 +16,26 @@ class MainDrawer extends StatelessWidget {
     ),
     DrawerTile(
       title: "Update DB",
-      onTap: () {
+      onTap: () async {
         final BaseInformationDatabase database = BaseInformationDatabase();
+        await database.init();
         database.updateBaseInformation();
+      },
+    ),
+    DrawerTile(
+      title: "Read DB",
+      onTap: () async {
+        final BaseInformationDatabase database = BaseInformationDatabase();
+        await database.init();
+        await database.getBaseInformation();
+      },
+    ),
+    DrawerTile(
+      title: "Print DB",
+      onTap: () async {
+        final BaseInformationDatabase database = BaseInformationDatabase();
+        await database.init();
+        await database.printContent();
       },
     ),
   ];

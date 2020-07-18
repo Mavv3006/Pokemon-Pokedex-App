@@ -22,3 +22,6 @@ final String pokemonsBack = 'pokemons_back';
 final String pokemonsFront = 'pokemons_front';
 final String pokemonsType1Id = 'pokemons_type1Id';
 final String pokemonsType2Id = 'pokemons_type2Id';
+
+// generall --------------------------------------------------------------------
+final String languageId = 'languageId';

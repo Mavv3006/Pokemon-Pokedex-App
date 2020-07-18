@@ -41,6 +41,7 @@ class PokemonBaseInformation extends Model
       id: map[pokemonsId] as int,
       type1: PokemonType(id: map[pokemonsType1Id] as int),
       type2: PokemonType(id: map[pokemonsType2Id] as int),
+      language: Language.fromId(map[languageId] as int),
     );
   }
 

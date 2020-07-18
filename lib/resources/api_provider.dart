@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
+import 'package:pokemon_pokedex/models/database/constants.dart';
 import 'package:pokemon_pokedex/models/language.dart';
 import 'package:pokemon_pokedex/models/pokemon/name.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
@@ -180,6 +181,7 @@ class ApiProvider {
     List<PokemonType> types = [];
     for (Map<String, dynamic> type in results) {
       PokemonType pokemonType = await getType(type['url'] as String);
+      pokemonType.languageId = 6; // only german type names
       types.add(pokemonType);
     }
     return types;

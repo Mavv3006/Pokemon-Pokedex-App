@@ -12,6 +12,17 @@ class Language extends Model implements Serializable, Deserializable {
   final int id;
   final String name;
 
+  static List<int> _availableIds = [
+    6,
+    9,
+  ];
+
+  Language({
+    this.id,
+    this.name,
+    this.shortCode,
+  });
+
   Language.german()
       : shortCode = "de",
         name = 'Deutsch',
@@ -35,11 +46,21 @@ class Language extends Model implements Serializable, Deserializable {
     ];
   }
 
-  Language({
-    this.id,
-    this.name,
-    this.shortCode,
-  });
+  static Language fromId(int id) {
+    if (id == null) {
+      return Language.german();
+    } else if (_availableIds.contains(id)) {
+      switch (id) {
+        case 6:
+          return Language.german();
+        case 9:
+          return Language.english();
+        default:
+          throw UnimplementedError();
+      }
+    } else
+      throw UnimplementedError();
+  }
 
   @override
   Language fromMap(Map<String, dynamic> map) {
