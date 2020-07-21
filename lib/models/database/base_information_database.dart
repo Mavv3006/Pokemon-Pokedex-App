@@ -190,7 +190,9 @@ class BaseInformationDatabase {
 
 // Read methods ----------------------------------------------------------------
 
-  Future<List<PokemonBaseInformation>> getBaseInformation() async {
+  Future<List<PokemonBaseInformation>> getBaseInformation(
+    Language language,
+  ) async {
     final String sql = """
       select 	p.$pokemonsId , 
         n.$namesName ,
@@ -204,7 +206,7 @@ class BaseInformationDatabase {
       inner join $names n on n.$namesPokemonId =p.$pokemonsId 
       inner join $types t2 on t2.$typesTypeId =p.$pokemonsType1Id
       inner join $types t3 on t3.$typesTypeId =p.$pokemonsType2Id 
-      where n.$namesLanguageId = 6 and t2.$typesLanguageId = 6 and t3.$typesLanguageId = 6
+      where n.$namesLanguageId = ${language.id} and t2.$typesLanguageId = ${language.id} and t3.$typesLanguageId = ${language.id}
       ORDER BY p.$pokemonsId 
     """;
     List<Map<String, dynamic>> map = await database.rawQuery(sql);
@@ -217,7 +219,10 @@ class BaseInformationDatabase {
 // Helper methods --------------------------------------------------------------
 
   Future printContent() async {
-    print(await database.query(languages, columns: ['*']));
+    print(await database.query(
+      languages,
+      columns: ['*'],
+    ));
     print(await database.query(
       types,
       columns: ['*'],
@@ -236,5 +241,16 @@ class BaseInformationDatabase {
       where: '$namesPokemonId <= ?',
       whereArgs: [5],
     ));
+  }
+
+  Future<List<PokemonBaseInformation>> search(String query) async {
+    List<Map<String, dynamic>> result = await database.rawQuery(
+      """
+        SELECT *
+        from $names n 
+        where n.$namesName like "%$query%" or n.$namesPokemonId like "%$query%"
+      """,
+    );
+    print(result.toString());
   }
 }

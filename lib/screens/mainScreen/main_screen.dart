@@ -50,6 +50,7 @@ class MyHomePage extends StatelessWidget {
                 bottom: 25,
               ),
               child: FloatingActionButton(
+                heroTag: "backButton",
                 onPressed: allPokemons.currentPageNumber == 0
                     ? null
                     : allPokemons.previousPage,
@@ -73,6 +74,7 @@ class MyHomePage extends StatelessWidget {
                 bottom: 25,
               ),
               child: FloatingActionButton(
+                heroTag: "nextButton",
                 onPressed: allPokemons.nextPage,
                 // Active Button Color
                 backgroundColor: MyColors.DARK_BLUE,

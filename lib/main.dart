@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pokemon_pokedex/resources/provider/all_pokemons.dart';
 import 'package:pokemon_pokedex/screens/mainScreen/main_screen.dart';
+import 'package:pokemon_pokedex/screens/searchScreen/search_screen.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
+import 'package:pokemon_pokedex/utils/routes.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -19,6 +21,11 @@ class MyApp extends StatelessWidget {
         return AllPokemons();
       },
       child: MaterialApp(
+        initialRoute: Routes.pokedex,
+        routes: {
+          Routes.pokedex: (context) => MyHomePage(),
+          Routes.search: (context) => SearchScreen(),
+        },
         title: 'Flutter Demo',
         theme: ThemeData(
           textTheme: GoogleFonts.latoTextTheme(textTheme),
@@ -26,7 +33,6 @@ class MyApp extends StatelessWidget {
           accentColor: MyColors.YELLOW,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: MyHomePage(),
       ),
     );
   }
