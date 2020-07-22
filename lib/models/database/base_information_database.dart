@@ -251,6 +251,13 @@ class BaseInformationDatabase {
         where n.$namesName like "%$query%" or n.$namesPokemonId like "%$query%"
       """,
     );
-    print(result.toString());
+    print('result.length: ' + result.length.toString());
+    List<PokemonBaseInformation> list = [];
+    for (Map<String, dynamic> map in result) {
+      PokemonBaseInformation pokemon =
+          PokemonBaseInformation.fromDatabaseSearchResult(map);
+      list.add(pokemon);
+    }
+    return list;
   }
 }

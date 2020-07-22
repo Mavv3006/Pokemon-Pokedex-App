@@ -45,6 +45,14 @@ class PokemonBaseInformation extends Model
     );
   }
 
+  static PokemonBaseInformation fromDatabaseSearchResult(
+      Map<String, dynamic> map) {
+    return PokemonBaseInformation(
+      id: map['names_pokemonId'] as int,
+      name: map['names_name'] as String,
+    );
+  }
+
   @override
   Map<String, dynamic> toMap() {
     return {
