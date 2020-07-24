@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
-import 'package:pokemon_pokedex/models/database/constants.dart';
 import 'package:pokemon_pokedex/models/language.dart';
 import 'package:pokemon_pokedex/models/pokemon/name.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';

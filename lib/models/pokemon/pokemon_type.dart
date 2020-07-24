@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/color_information.dart';
-import 'package:pokemon_pokedex/models/database/constants.dart';
 import 'package:pokemon_pokedex/models/utility/deserializable.dart';
 import 'package:pokemon_pokedex/models/utility/model.dart';
 import 'package:pokemon_pokedex/models/utility/name.dart';
 import 'package:pokemon_pokedex/models/utility/serializable.dart';
+import 'package:pokemon_pokedex/resources/database/sqflite/constants.dart';
 import 'package:pokemon_pokedex/utils/pokemon_type_colors.dart';
 import 'package:to_string/to_string.dart';
 

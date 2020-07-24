@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pokemon_pokedex/resources/api_provider.dart';
+import 'package:pokemon_pokedex/resources/database/sqflite/sqflite_database.dart';
+import 'package:pokemon_pokedex/resources/database/storage_provider.dart';
 import 'package:pokemon_pokedex/resources/provider/all_pokemons.dart';
 import 'package:pokemon_pokedex/screens/mainScreen/main_screen.dart';
 import 'package:pokemon_pokedex/screens/searchScreen/search_screen.dart';
@@ -16,10 +19,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    return ChangeNotifierProvider<AllPokemons>(
-      create: (BuildContext context) {
-        return AllPokemons();
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AllPokemons>(
+          create: (BuildContext context) {
+            return AllPokemons();
+          },
+        ),
+        Provider(
+          create: (context) => ApiProvider(),
+        ),
+        ProxyProvider<ApiProvider, StorageProvider>(
+          update: (
+            BuildContext context,
+            ApiProvider value,
+            StorageProvider previous,
+          ) =>
+              SqfliteDatabase(apiProvider: value),
+        ),
+      ],
       child: MaterialApp(
         initialRoute: Routes.pokedex,
         routes: {

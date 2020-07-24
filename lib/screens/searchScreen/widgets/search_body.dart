@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pokemon_pokedex/models/database/base_information_database.dart';
-import 'package:pokemon_pokedex/models/language.dart';
 import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
-import 'package:pokemon_pokedex/screens/searchScreen/widgets/database_provider.dart';
+import 'package:pokemon_pokedex/resources/database/storage_provider.dart';
 import 'package:pokemon_pokedex/screens/searchScreen/widgets/search_item.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class SearchBody extends StatelessWidget {
   final String query;
@@ -18,7 +17,7 @@ class SearchBody extends StatelessWidget {
       return Container();
     }
 
-    BaseInformationDatabase database = DatabaseProvider.of(context).database;
+    StorageProvider database = Provider.of<StorageProvider>(context);
 
     return FutureBuilder(
       future: database.search(query),
@@ -26,27 +25,6 @@ class SearchBody extends StatelessWidget {
         if (snapshot.hasData) {
           List<PokemonBaseInformation> data =
               snapshot.data as List<PokemonBaseInformation>;
-
-          // return ListView.separated(
-          //   padding: const EdgeInsets.only(
-          //     top: 26,
-          //     left: 21,
-          //     right: 21,
-          //   ),
-          //   itemBuilder: (context, index) {
-          //     PokemonBaseInformation pokemon = data[index];
-          //     return SearchItem(
-          //       name: pokemon.name,
-          //       number: pokemon.id,
-          //       picture: pokemon.frontImage,
-          //     );
-          //   },
-          //   separatorBuilder: (BuildContext context, int index) => Divider(
-          //     color: Colors.transparent,
-          //     height: 14,
-          //   ),
-          //   itemCount: data.length,
-          // );
 
           return GridView.builder(
             padding: const EdgeInsets.only(
