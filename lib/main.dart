@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pokemon_pokedex/resources/api_provider.dart';
+import 'package:pokemon_pokedex/resources/api/api_provider.dart';
 import 'package:pokemon_pokedex/resources/database/sqflite/sqflite_database.dart';
 import 'package:pokemon_pokedex/resources/database/storage_provider.dart';
 import 'package:pokemon_pokedex/resources/provider/all_pokemons.dart';

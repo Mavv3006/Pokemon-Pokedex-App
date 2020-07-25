@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:pokemon_pokedex/models/database_insert_model.dart';
 import 'package:pokemon_pokedex/models/language.dart';
 import 'package:pokemon_pokedex/models/pokemon/name.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon_type.dart';
 import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
-import 'package:pokemon_pokedex/resources/api_provider.dart';
+import 'package:pokemon_pokedex/resources/api/api_provider.dart';
 import 'package:pokemon_pokedex/resources/database/sqflite/constants.dart';
 import 'package:pokemon_pokedex/resources/database/sqflite/sqflite_helper.dart';
 import 'package:pokemon_pokedex/resources/database/storage_provider.dart';
