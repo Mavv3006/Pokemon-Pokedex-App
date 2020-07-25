@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/color_information.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
-import 'package:pokemon_pokedex/screens/mainScreen/widgets/type_indicator.dart';
+import 'package:pokemon_pokedex/screens/pokedexScreen/widgets/type_indicator.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
 import 'package:pokemon_pokedex/utils/pokemon_type_colors.dart';
 
@@ -12,23 +12,6 @@ class PokemonInformation extends StatelessWidget {
   }) : super(key: key);
 
   final Pokemon pokemon;
-
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> typeIndicator = getTypeIndicator();
-    return Container(
-      margin: const EdgeInsets.only(top: 10),
-      height: 20,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => typeIndicator[index],
-        itemCount: typeIndicator.length,
-        separatorBuilder: (context, index) => const Padding(
-          padding: const EdgeInsets.all(6),
-        ),
-      ),
-    );
-  }
 
   List<Widget> getTypeIndicator() {
     List<Widget> typeList = [
@@ -56,5 +39,22 @@ class PokemonInformation extends StatelessWidget {
       }
     }
     return typeList;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> typeIndicator = getTypeIndicator();
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      height: 20,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) => typeIndicator[index],
+        itemCount: typeIndicator.length,
+        separatorBuilder: (context, index) => const Padding(
+          padding: const EdgeInsets.all(6),
+        ),
+      ),
+    );
   }
 }

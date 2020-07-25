@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
-import 'package:pokemon_pokedex/resources/api_provider.dart';
+import 'package:pokemon_pokedex/resources/api/api_provider.dart';
 
 import 'pokemon_1.dart';
 import 'pokemon_data.dart';

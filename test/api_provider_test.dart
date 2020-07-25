@@ -4,7 +4,7 @@ import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon_type.dart';
 import 'package:pokemon_pokedex/models/utility/additional_information.dart';
 import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
-import 'package:pokemon_pokedex/resources/api_provider.dart';
+import 'package:pokemon_pokedex/resources/api/api_provider.dart';
 
 import 'data/client_response.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/resources/provider/all_pokemons.dart';
-import 'package:pokemon_pokedex/screens/mainScreen/widgets/pokemon_widget.dart';
+import 'package:pokemon_pokedex/screens/pokedexScreen/widgets/pokemon_list_view.dart';
 import 'package:provider/provider.dart';
 
 class MainBody extends StatelessWidget {
@@ -21,22 +21,9 @@ class MainBody extends StatelessWidget {
 
             // the app has data
             if (snapshot.hasData) {
-              List<Pokemon> all = snapshot.data as List<Pokemon>;
+              List<Pokemon> pokemonList = snapshot.data as List<Pokemon>;
 
-              return ListView.separated(
-                padding: const EdgeInsets.only(
-                  top: 20,
-                  bottom: 20,
-                ),
-                itemCount: all.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return PokemonWidget(all[index]);
-                },
-                separatorBuilder: (BuildContext context, int index) => Divider(
-                  color: Colors.transparent,
-                  height: 12,
-                ),
-              );
+              return PokemonListView(pokemonList);
             }
 
             print('failed state');

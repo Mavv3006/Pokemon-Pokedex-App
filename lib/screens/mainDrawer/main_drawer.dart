@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/language.dart';
 import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
 import 'package:pokemon_pokedex/resources/database/storage_provider.dart';
-import 'package:pokemon_pokedex/screens/drawer/widgets/drawer_tile.dart';
+import 'package:pokemon_pokedex/screens/mainDrawer/widgets/drawer_tile.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
 import 'package:pokemon_pokedex/utils/routes.dart';
 import 'package:provider/provider.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pokemon_pokedex/resources/api_provider.dart';
+import 'package:pokemon_pokedex/resources/api/api_provider.dart';
 import 'package:pokemon_pokedex/resources/database/sqflite/sqflite_database.dart';
 import 'package:pokemon_pokedex/resources/database/storage_provider.dart';
 import 'package:pokemon_pokedex/resources/provider/all_pokemons.dart';
-import 'package:pokemon_pokedex/screens/mainScreen/main_screen.dart';
+import 'package:pokemon_pokedex/screens/pokedexScreen/pokedex_screen.dart';
 import 'package:pokemon_pokedex/screens/searchScreen/search_screen.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
 import 'package:pokemon_pokedex/utils/routes.dart';
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         initialRoute: Routes.pokedex,
         routes: {
-          Routes.pokedex: (context) => MyHomePage(),
+          Routes.pokedex: (context) => PokedexScreen(),
           Routes.search: (context) => SearchScreen(),
         },
         title: 'Flutter Demo',

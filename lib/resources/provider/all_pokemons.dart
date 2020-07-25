@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
-import 'package:pokemon_pokedex/resources/api_provider.dart';
+import 'package:pokemon_pokedex/resources/api/api_provider.dart';
 
 class AllPokemons extends ChangeNotifier {
   final ApiProvider apiProvider = ApiProvider();
