@@ -160,7 +160,7 @@ class ApiProvider {
   }
 
   Future<List<PokemonBaseInformation>> getBaseInformationForAll() async {
-    if (!_updatedPokemonCount) await getPokemonCount();
+    // if (!_updatedPokemonCount) await getPokemonCount();
     List<PokemonBaseInformation> list = [];
     for (int i = 1; i <= _pokemonCount; i++) {
       list.add(await getBaseInformation(i));
@@ -187,7 +187,7 @@ class ApiProvider {
   }
 
   Future<List<Name>> getAllNames() async {
-    if (!_updatedPokemonCount) await getPokemonCount();
+    // if (!_updatedPokemonCount) await getPokemonCount();
     List<Name> namesList = [];
 
     for (int i = 1; i <= _pokemonCount; i++) {

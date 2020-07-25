@@ -1,14 +1,36 @@
-import 'package:to_string/to_string.dart';
+import 'package:flutter/foundation.dart';
 
-part 'grid_screen_information.g.dart';
-
-@ToString()
 class GridScreenInformation {
-  int crossAxisCount;
+  int _crossAxisCount;
   double childAspectRatio;
 
-  @override
-  String toString() {
-    return _$GridScreenInformationToString(this);
+  final double crossAxisSpacing = 21;
+  final double mainAxisSpacing = 14;
+  final double minGridElementWidth = 145;
+  final double minGridElementHeight = 108;
+
+  static const double outerPadding = 21;
+
+  int get crossAxisCount => _crossAxisCount;
+
+  set crossAxisCount(int amount) {
+    _crossAxisCount = amount;
+  }
+
+  bool isValid(double width) =>
+      (crossAxisSpacing > -width) && (minGridElementWidth > -crossAxisSpacing);
+
+  int getAmount(double width) =>
+      (crossAxisSpacing + width) ~/ (crossAxisSpacing + minGridElementWidth);
+
+  double _getWidth({
+    @required double width,
+  }) =>
+      (width - (_crossAxisCount - 1) * crossAxisSpacing) / _crossAxisCount;
+
+  calcAspectRatio({
+    @required double width,
+  }) {
+    childAspectRatio = _getWidth(width: width) / minGridElementHeight;
   }
 }
