@@ -1,17 +1,20 @@
 import 'package:flutter/cupertino.dart';
+import 'package:pokemon_pokedex/models/language.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/resources/api/api_provider.dart';
 
-class AllPokemons extends ChangeNotifier {
+class PokemonProvider extends ChangeNotifier {
   final ApiProvider apiProvider = ApiProvider();
+
+  Language language;
 
   /// The page beeing displayed.
   int _currentPage = 0;
 
   /// The amount of pokemon shown per page.
-  int _amountPerPage = 10;
+  int _amountPerPage;
 
-  set setPokemonPerPage(int amountPerPage) {
+  set pokemonAmountPerPage(int amountPerPage) {
     _amountPerPage = amountPerPage;
     notifyListeners();
   }

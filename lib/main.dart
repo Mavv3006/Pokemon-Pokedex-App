@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pokemon_pokedex/resources/api/api_provider.dart';
 import 'package:pokemon_pokedex/resources/database/sqflite/sqflite_database.dart';
 import 'package:pokemon_pokedex/resources/database/storage_provider.dart';
-import 'package:pokemon_pokedex/resources/provider/all_pokemons.dart';
+import 'package:pokemon_pokedex/resources/provider/pokemon_provider.dart';
+import 'package:pokemon_pokedex/resources/settings/settings_provider.dart';
 import 'package:pokemon_pokedex/screens/pokedexScreen/pokedex_screen.dart';
 import 'package:pokemon_pokedex/screens/searchScreen/search_screen.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
@@ -21,13 +22,24 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AllPokemons>(
-          create: (BuildContext context) {
-            return AllPokemons();
+        ChangeNotifierProvider<SettingsProvider>(
+          create: (BuildContext context) => SettingsProvider(),
+        ),
+        ChangeNotifierProxyProvider<SettingsProvider, PokemonProvider>(
+          create: (BuildContext context) => PokemonProvider(),
+          update: (
+            BuildContext context,
+            SettingsProvider value,
+            PokemonProvider previous,
+          ) {
+            PokemonProvider pokemons = PokemonProvider();
+            pokemons.language = value.language;
+            pokemons.pokemonAmountPerPage = value.pokemonAmountPerPage;
+            return pokemons;
           },
         ),
-        Provider(
-          create: (context) => ApiProvider(),
+        Provider<ApiProvider>(
+          create: (BuildContext context) => ApiProvider(),
         ),
         ProxyProvider<ApiProvider, StorageProvider>(
           update: (
