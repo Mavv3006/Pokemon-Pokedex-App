@@ -1,9 +1,9 @@
-import 'package:pokemon_pokedex/models/database/constants.dart';
 import 'package:pokemon_pokedex/models/language.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon_type.dart';
 import 'package:pokemon_pokedex/models/utility/deserializable.dart';
 import 'package:pokemon_pokedex/models/utility/model.dart';
 import 'package:pokemon_pokedex/models/utility/serializable.dart';
+import 'package:pokemon_pokedex/resources/database/sqflite/constants.dart';
 import 'package:to_string/to_string.dart';
 
 part 'pokemon_base_information.g.dart';
@@ -42,6 +42,14 @@ class PokemonBaseInformation extends Model
       type1: PokemonType(id: map[pokemonsType1Id] as int),
       type2: PokemonType(id: map[pokemonsType2Id] as int),
       language: Language.fromId(map[languageId] as int),
+    );
+  }
+
+  static PokemonBaseInformation fromDatabaseSearchResult(
+      Map<String, dynamic> map) {
+    return PokemonBaseInformation(
+      id: map['names_pokemonId'] as int,
+      name: map['names_name'] as String,
     );
   }
 

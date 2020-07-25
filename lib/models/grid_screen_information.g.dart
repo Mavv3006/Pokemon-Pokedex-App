@@ -1,11 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pokemon_type.dart';
+part of 'grid_screen_information.dart';
 
 // **************************************************************************
 // ToStringGenerator
 // **************************************************************************
 
-String _$PokemonTypeToString(PokemonType o) {
-  return """PokemonType{id: ${o.id}, url: ${o.url}, name: ${o.name}, color: ${o.color}, languageId: ${o.languageId}}""";
+String _$GridScreenInformationToString(GridScreenInformation o) {
+  return """GridScreenInformation{crossAxisCount: ${o.crossAxisCount}, childAspectRatio: ${o.childAspectRatio}}""";
 }

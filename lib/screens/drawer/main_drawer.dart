@@ -1,47 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_pokedex/models/database/base_information_database.dart';
+import 'package:pokemon_pokedex/models/language.dart';
+import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
+import 'package:pokemon_pokedex/resources/database/storage_provider.dart';
 import 'package:pokemon_pokedex/screens/drawer/widgets/drawer_tile.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
+import 'package:pokemon_pokedex/utils/routes.dart';
+import 'package:provider/provider.dart';
 
 class MainDrawer extends StatelessWidget {
-  final List<DrawerTile> drawerTileList = <DrawerTile>[
-    DrawerTile(
-      title: "Pokédex",
-      isActive: true,
-    ),
-    DrawerTile(title: "Suchen"),
-    DrawerTile(
-      title: "Einstellungen",
-      onTap: () => print("hi"),
-    ),
-    DrawerTile(
-      title: "Update DB",
-      onTap: () async {
-        final BaseInformationDatabase database = BaseInformationDatabase();
-        await database.init();
-        database.updateBaseInformation();
-      },
-    ),
-    DrawerTile(
-      title: "Read DB",
-      onTap: () async {
-        final BaseInformationDatabase database = BaseInformationDatabase();
-        await database.init();
-        await database.getBaseInformation();
-      },
-    ),
-    DrawerTile(
-      title: "Print DB",
-      onTap: () async {
-        final BaseInformationDatabase database = BaseInformationDatabase();
-        await database.init();
-        await database.printContent();
-      },
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final StorageProvider database = Provider.of<StorageProvider>(context);
+
+    final List<DrawerTile> drawerTileList = <DrawerTile>[
+      DrawerTile(
+        title: "Pokédex",
+        onTap: () => Navigator.pushReplacementNamed(
+          context,
+          Routes.pokedex,
+        ),
+      ),
+      DrawerTile(
+        title: "Suchen",
+        onTap: () => Navigator.pushReplacementNamed(
+          context,
+          Routes.search,
+        ),
+      ),
+      DrawerTile(
+        title: "Einstellungen",
+        onTap: () => print("hi"),
+      ),
+      DrawerTile(
+        title: "Update DB",
+        onTap: () async {
+          database.update();
+        },
+      ),
+      DrawerTile(
+        title: "Read DB",
+        onTap: () async {
+          List<PokemonBaseInformation> list =
+              await database.getAll(Language.german());
+          print(list.toString());
+        },
+      ),
+      DrawerTile(
+        title: "Search 'Bis'",
+        onTap: () async {
+          List<PokemonBaseInformation> list = await database.search("Bis");
+          print(list.toString());
+        },
+      ),
+      DrawerTile(
+        title: "Search 'ak'",
+        onTap: () async {
+          List<PokemonBaseInformation> list = await database.search("ak");
+          print(list.toString());
+        },
+      ),
+    ];
+
     return Container(
       padding: const EdgeInsets.only(top: 20),
       color: MyColors.BLUE_ACCENT,

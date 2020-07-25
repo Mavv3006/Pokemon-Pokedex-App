@@ -5,11 +5,13 @@ class MyColors {
   static const int DARK_BLUE_INT = 0xff003a70;
   static const int BLUE_INT = 0xff3d7dca;
   static const int BLUE_ACCENT_INT = 0xff2c60a0;
+  static const int SEARCH_INT = 0x4CFFE16D;
 
   static const Color YELLOW = const Color(0xffffcb05);
   static const Color DARK_BLUE = const Color(0xff003a70);
   static const Color BLUE = const Color(0xff3d7dca);
   static const Color BLUE_ACCENT = const Color(0xff2c60a0);
+  static const Color SEARCH = const Color(0xC2FFE16D);
 }
 
 class MyMaterialColors {
@@ -26,6 +28,21 @@ class MyMaterialColors {
       700: MyColors.YELLOW,
       800: MyColors.YELLOW,
       900: MyColors.YELLOW,
+    },
+  );
+  static const MaterialColor SEARCH = const MaterialColor(
+    MyColors.SEARCH_INT,
+    <int, Color>{
+      50: MyColors.SEARCH,
+      100: MyColors.SEARCH,
+      200: MyColors.SEARCH,
+      300: MyColors.SEARCH,
+      400: MyColors.SEARCH,
+      500: MyColors.SEARCH,
+      600: MyColors.SEARCH,
+      700: MyColors.SEARCH,
+      800: MyColors.SEARCH,
+      900: MyColors.SEARCH,
     },
   );
   static const MaterialColor DARK_BLUE = const MaterialColor(
