@@ -5,6 +5,7 @@ import 'package:pokemon_pokedex/models/pokemon/pokemon_type.dart';
 import 'package:pokemon_pokedex/models/utility/additional_information.dart';
 import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
 import 'package:pokemon_pokedex/resources/api/api_provider.dart';
+import 'package:pokemon_pokedex/resources/settings/settings_provider.dart';
 
 import 'data/client_response.dart';
 
@@ -35,6 +36,7 @@ main() {
 
   test('Get name of Pokemon', () async {
     final ApiProvider client = ApiProvider();
+    client.settingsProvider = SettingsProvider();
     client.client = MockClient(clientResponse);
 
     final String name = await client.getName(1);
@@ -44,6 +46,7 @@ main() {
 
   test('Get name of pokemon type', () async {
     final ApiProvider client = ApiProvider();
+    client.settingsProvider = SettingsProvider();
     client.client = MockClient(clientResponse);
 
     final PokemonType type =
@@ -56,6 +59,7 @@ main() {
 
   test('Get additional information about a pokemon', () async {
     final ApiProvider client = ApiProvider();
+    client.settingsProvider = SettingsProvider();
     client.client = MockClient(clientResponse);
 
     Pokemon pokemon = await client.getSingleBasicInformation(1);
@@ -73,6 +77,7 @@ main() {
 
   test('ApiProvider.getSingle()', () async {
     final ApiProvider client = ApiProvider();
+    client.settingsProvider = SettingsProvider();
     client.client = MockClient(clientResponse);
 
     final Pokemon pokemon = await client.getSingle(1);
@@ -86,6 +91,7 @@ main() {
 
   test('ApiProvider.getMultiple()', () async {
     final ApiProvider client = ApiProvider();
+    client.settingsProvider = SettingsProvider();
     client.client = MockClient(clientResponse);
 
     List<Pokemon> list = await client.getMultiple(limit: 1, offset: 1);
@@ -116,6 +122,7 @@ main() {
   group('database functions', () {
     test('getBaseInformation()', () async {
       final ApiProvider client = ApiProvider();
+      client.settingsProvider = SettingsProvider();
       client.client = MockClient(clientResponse);
 
       PokemonBaseInformation information = await client.getBaseInformation(1);
@@ -130,6 +137,7 @@ main() {
 
     test('getBaseInformationForAll()', () async {
       final ApiProvider client = ApiProvider();
+      client.settingsProvider = SettingsProvider();
       client.client = MockClient(clientResponse);
 
       List<PokemonBaseInformation> list =
@@ -151,11 +159,12 @@ main() {
 
     test('getPokemonCount()', () async {
       final ApiProvider client = ApiProvider();
+      client.settingsProvider = SettingsProvider();
       client.client = MockClient(clientResponse);
 
       expect(client.pokemonCount, 10);
 
-      await client.getPokemonCount();
+      await client.updatePokemonCount();
 
       expect(client.pokemonCount, 4);
     });

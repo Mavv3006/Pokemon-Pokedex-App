@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_pokedex/resources/provider/all_pokemons.dart';
+import 'package:pokemon_pokedex/resources/provider/pokemon_provider.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -8,7 +8,7 @@ class ForwardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AllPokemons allPokemons = Provider.of<AllPokemons>(context);
+    PokemonProvider allPokemons = Provider.of<PokemonProvider>(context);
 
     return Align(
       alignment: Alignment.bottomRight,
