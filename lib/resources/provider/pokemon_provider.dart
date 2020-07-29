@@ -1,20 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/resources/api/api_provider.dart';
+import 'package:pokemon_pokedex/resources/settings/settings_provider.dart';
 
-class AllPokemons extends ChangeNotifier {
+class PokemonProvider extends ChangeNotifier {
   final ApiProvider apiProvider = ApiProvider();
 
   /// The page beeing displayed.
   int _currentPage = 0;
 
-  /// The amount of pokemon shown per page.
-  int _amountPerPage = 10;
-
-  set setPokemonPerPage(int amountPerPage) {
-    _amountPerPage = amountPerPage;
-    notifyListeners();
-  }
+  /// An instance of the settings provider to get access to the language and
+  /// the amount of pokemon per page value
+  SettingsProvider settingsProvider;
 
   /// Goes to the next screen.
   void nextPage() {
@@ -38,10 +35,10 @@ class AllPokemons extends ChangeNotifier {
 
   /// Fetches the pokemon for the current page.
   Future<List<Pokemon>> _getCurrentPage(int page) async {
-    int offset = page * _amountPerPage;
+    int offset = page * settingsProvider.pokemonAmountPerPage;
     return apiProvider.getMultiple(
       offset: offset,
-      limit: _amountPerPage,
+      limit: settingsProvider.pokemonAmountPerPage,
     );
   }
 }

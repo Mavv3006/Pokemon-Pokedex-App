@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pokemon_pokedex/screens/mainDrawer/main_drawer.dart';
 import 'package:pokemon_pokedex/screens/widgets/pokemon_app_bar.dart';
 import 'package:pokemon_pokedex/screens/searchScreen/widgets/search_body.dart';
 import 'package:pokemon_pokedex/screens/searchScreen/widgets/search_textfield.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
-import 'package:pokemon_pokedex/utils/routes.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
