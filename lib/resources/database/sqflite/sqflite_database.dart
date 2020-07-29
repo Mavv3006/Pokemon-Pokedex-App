@@ -181,4 +181,21 @@ class SqfliteDatabase extends StorageProvider {
     }
     return list;
   }
+
+// isUpToDate methods ----------------------------------------------------------
+  @override
+  Future<bool> isUpToDate(int remoteCount) async {
+    return remoteCount == await _countDatabaseEntries();
+  }
+
+  Future<int> _countDatabaseEntries() async {
+    Database database = await SqfliteHelper.instance.database;
+    List<Map<String, dynamic>> databaseReturn = await database.query(
+      pokemons,
+      columns: ['count(*) as sum'],
+    );
+    Map<String, dynamic> firstValue = databaseReturn.removeAt(0);
+    int sum = firstValue['sum'] as int;
+    return sum;
+  }
 }

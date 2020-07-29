@@ -34,8 +34,11 @@ class MyApp extends StatelessWidget {
             BuildContext context,
             ApiProvider value,
             StorageProvider previous,
-          ) =>
-              SqfliteDatabase(apiProvider: value),
+          ) {
+            StorageProvider provider = SqfliteDatabase(apiProvider: value);
+            _checkPokemonCount(value, provider);
+            return provider;
+          },
         ),
       ],
       child: MaterialApp(
@@ -53,5 +56,15 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _checkPokemonCount(
+    ApiProvider apiProvider,
+    StorageProvider storageProvider,
+  ) async {
+    int remoteCount = await apiProvider.pokemonCount;
+    if (await storageProvider.isUpToDate(remoteCount) == false) {
+      storageProvider.update();
+    }
   }
 }

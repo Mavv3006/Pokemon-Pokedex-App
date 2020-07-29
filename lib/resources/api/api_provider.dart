@@ -16,7 +16,10 @@ class ApiProvider {
   int _pokemonCount = 10;
   bool _updatedPokemonCount = false;
 
-  int get pokemonCount => _pokemonCount;
+  Future<int> get pokemonCount async {
+    if (_updatedPokemonCount) await getPokemonCount();
+    return _pokemonCount;
+  }
 
   Future<Pokemon> getSingle(int id) async {
     Pokemon pokemon = await getSingleBasicInformation(id);
