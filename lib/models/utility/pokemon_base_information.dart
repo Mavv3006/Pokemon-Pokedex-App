@@ -37,10 +37,13 @@ class PokemonBaseInformation extends Model
 
   @override
   PokemonBaseInformation fromMap(Map<String, dynamic> map) {
+    PokemonType type2 = map[pokemonsType2Id] != null
+        ? PokemonType(id: int.parse(map[pokemonsType2Id] as String))
+        : null;
     return PokemonBaseInformation(
       id: map[pokemonsId] as int,
-      type1: PokemonType(id: map[pokemonsType1Id] as int),
-      type2: PokemonType(id: map[pokemonsType2Id] as int),
+      type1: PokemonType(id: int.parse(map[pokemonsType1Id] as String)),
+      type2: type2,
       language: Language.fromId(map[languageId] as int),
     );
   }

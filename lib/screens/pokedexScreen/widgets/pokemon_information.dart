@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/color_information.dart';
-import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
+import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
 import 'package:pokemon_pokedex/screens/pokedexScreen/widgets/type_indicator.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
 import 'package:pokemon_pokedex/utils/pokemon_type_colors.dart';
@@ -11,7 +11,7 @@ class PokemonInformation extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
-  final Pokemon pokemon;
+  final PokemonBaseInformation pokemon;
 
   List<Widget> getTypeIndicator() {
     List<Widget> typeList = [
@@ -27,16 +27,19 @@ class PokemonInformation extends StatelessWidget {
         ),
       ),
     ];
-    if (pokemon.types != null) {
-      for (var i = 0; i < pokemon.types.length; i++) {
-        ColorInformation typeColor =
-            PokemonTypeColors.getById(pokemon.types[i].id);
-        Widget typeIndicator = TypeIndicator(
-          typeColor: typeColor,
-          typeName: pokemon.types[i].name,
-        );
-        typeList.add(typeIndicator);
-      }
+    ColorInformation typeColor = PokemonTypeColors.getById(pokemon.type1.id);
+    Widget typeIndicator = TypeIndicator(
+      typeColor: typeColor,
+      typeName: pokemon.type1.name,
+    );
+    typeList.add(typeIndicator);
+    if (pokemon.type2 != null) {
+      ColorInformation typeColor = PokemonTypeColors.getById(pokemon.type2.id);
+      Widget typeIndicator = TypeIndicator(
+        typeColor: typeColor,
+        typeName: pokemon.type2.name,
+      );
+      typeList.add(typeIndicator);
     }
     return typeList;
   }

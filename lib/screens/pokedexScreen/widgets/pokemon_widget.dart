@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
+import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
 import 'package:pokemon_pokedex/screens/pokedexScreen/widgets/pokemon_images.dart';
 import 'package:pokemon_pokedex/screens/pokedexScreen/widgets/pokemon_information.dart';
 import 'package:pokemon_pokedex/screens/pokedexScreen/widgets/pokemon_number.dart';
 
 class PokemonWidget extends StatelessWidget {
-  final Pokemon pokemon;
+  final PokemonBaseInformation pokemon;
 
   final BoxDecoration _decoration = BoxDecoration(
     color: Colors.white,

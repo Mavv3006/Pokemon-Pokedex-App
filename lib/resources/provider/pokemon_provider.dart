@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
+import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
 import 'package:pokemon_pokedex/resources/api/api_provider.dart';
+import 'package:pokemon_pokedex/resources/database/storage_provider.dart';
 import 'package:pokemon_pokedex/resources/settings/settings_provider.dart';
 
 class PokemonProvider extends ChangeNotifier {
-  final ApiProvider apiProvider = ApiProvider();
+  ApiProvider apiProvider;
+  StorageProvider storageProvider;
 
   /// The page beeing displayed.
   int _currentPage = 0;
@@ -31,14 +33,15 @@ class PokemonProvider extends ChangeNotifier {
   int get currentPageNumber => _currentPage;
 
   /// Getter for the pokemon on the current page.
-  Future<List<Pokemon>> get currentPage async => _getCurrentPage(_currentPage);
+  Future<List<PokemonBaseInformation>> get currentPage async =>
+      _getCurrentPage(_currentPage);
 
   /// Fetches the pokemon for the current page.
-  Future<List<Pokemon>> _getCurrentPage(int page) async {
+  Future<List<PokemonBaseInformation>> _getCurrentPage(int page) async {
     int offset = page * settingsProvider.pokemonAmountPerPage;
-    return apiProvider.getMultiple(
-      offset: offset,
-      limit: settingsProvider.pokemonAmountPerPage,
+    return storageProvider.getMultiple(
+      offset,
+      settingsProvider.pokemonAmountPerPage,
     );
   }
 }

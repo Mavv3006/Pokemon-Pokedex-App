@@ -194,8 +194,24 @@ class SqfliteDatabase extends StorageProvider {
       pokemons,
       columns: ['count(*) as sum'],
     );
-    Map<String, dynamic> firstValue = databaseReturn.removeAt(0);
+    Map<String, dynamic> firstValue = databaseReturn[0];
     int sum = firstValue['sum'] as int;
     return sum;
+  }
+
+// getMultiple methods ---------------------------------------------------------
+
+  @override
+  Future<List<PokemonBaseInformation>> getMultiple(
+    int offset,
+    int limit,
+  ) async {
+    Database database = await SqfliteHelper.instance.database;
+    List<Map<String, dynamic>> map = await database.query(
+      pokemons,
+      offset: offset,
+      limit: limit,
+    );
+    return _mapToModel(map);
   }
 }
