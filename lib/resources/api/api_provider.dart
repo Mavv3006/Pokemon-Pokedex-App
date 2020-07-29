@@ -8,19 +8,20 @@ import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon_type.dart';
 import 'package:pokemon_pokedex/models/utility/additional_information.dart';
 import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
+import 'package:pokemon_pokedex/resources/settings/settings_provider.dart';
 import 'package:pokemon_pokedex/utils/pokemon_utils.dart';
 
 class ApiProvider {
   final Uri baseUrl = Uri.https('pokeapi.co', '/api/v2/');
   Client client = Client();
-  int _pokemonCount = 10;
-  bool _updatedPokemonCount = false;
+  SettingsProvider settingsProvider;
 
   Future<int> get pokemonCount async {
-    if (_updatedPokemonCount) await getPokemonCount();
-    return _pokemonCount;
+    if (settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
+    return settingsProvider.pokemonCount;
   }
 
+  /// Gets basic and additional information for one pokemon based on the ID.
   Future<Pokemon> getSingle(int id) async {
     Pokemon pokemon = await getSingleBasicInformation(id);
     AdditionalInformation additionalInformation =
@@ -30,6 +31,8 @@ class ApiProvider {
     return pokemon;
   }
 
+  /// Gets only the basic information for one pokemon based on the ID.
+  @visibleForTesting
   Future<Pokemon> getSingleBasicInformation(int id) async {
     Uri uri = baseUrl.replace(path: baseUrl.path + 'pokemon/$id');
     Response response = await client.get(uri.toString());
@@ -38,6 +41,9 @@ class ApiProvider {
     return Pokemon.fromJson(jsonResponse);
   }
 
+  /// Gets only the basic information for one pokemon based on the URL to the
+  /// pokemon.
+  @visibleForTesting
   Future<Pokemon> getSingleBasicInformationFromUrl(String url) async {
     Response response = await client.get(url);
     Map<String, dynamic> jsonResponse =
@@ -47,8 +53,10 @@ class ApiProvider {
 
   /// Returns additional information about a specific information.
   /// These include the name and information about the type.
+  @visibleForTesting
   Future<AdditionalInformation> getAdditionalInformation(
-      Pokemon pokemon) async {
+    Pokemon pokemon,
+  ) async {
     AdditionalInformation additionalInformation = AdditionalInformation();
     additionalInformation.name = await getName(pokemon.id);
     for (PokemonType type in pokemon.types) {
@@ -58,17 +66,21 @@ class ApiProvider {
   }
 
   /// Returns the name of the pokemon identified by the id.
+  @visibleForTesting
   Future<String> getName(int id) async {
+    String languageShortCode = settingsProvider.language.shortCode;
     Uri uri = baseUrl.replace(path: baseUrl.path + 'pokemon-species/$id');
     Response response = await client.get(uri.toString());
     Map<String, dynamic> jsonResponse =
         json.decode(response.body) as Map<String, dynamic>;
     List<dynamic> names = jsonResponse['names'] as List<dynamic>;
-    List<dynamic> name =
-        names.where((element) => element['language']['name'] == 'de').toList();
+    List<dynamic> name = names
+        .where((element) => element['language']['name'] == languageShortCode)
+        .toList();
     return name[0]['name'] as String;
   }
 
+  @visibleForTesting
   Future<PokemonType> getType(String url) async {
     Response response = await client.get(url);
     Map<String, dynamic> jsonResponse =
@@ -77,6 +89,7 @@ class ApiProvider {
   }
 
   /// Returns the Id and URL of the types for the pokemon identified by the Id.
+  @visibleForTesting
   Future<List<PokemonType>> getTypeByPokemonId(int id) async {
     Uri uri = baseUrl.replace(path: baseUrl.path + 'pokemon/$id');
     Response response = await client.get(uri);
@@ -99,6 +112,7 @@ class ApiProvider {
   Future<List<Pokemon>> getMultiple({
     @required int offset,
     @required int limit,
+    Language language,
   }) async {
     List<Pokemon> list = await getMultipleBasicInformation(
       limit: limit,
@@ -114,6 +128,7 @@ class ApiProvider {
   }
 
   /// Returns basic Information about multiple pokemon
+  @visibleForTesting
   Future<List<Pokemon>> getMultipleBasicInformation({
     @required int limit,
     @required int offset,
@@ -139,6 +154,7 @@ class ApiProvider {
 
   /// Returns the information for the pokemon with the Id needed to build
   /// the UI only from the database.
+  @visibleForTesting
   Future<PokemonBaseInformation> getBaseInformation(int id) async {
     String _name = await getName(id);
     List<PokemonType> types = await getTypeByPokemonId(id);
@@ -153,19 +169,20 @@ class ApiProvider {
   }
 
   /// Counts the amount of pokemon available
-  Future<void> getPokemonCount() async {
-    _updatedPokemonCount = true;
+  @visibleForTesting
+  Future<void> updatePokemonCount() async {
+    settingsProvider.hasUpdatedPokemonCount = true;
     Uri _uri = baseUrl.replace(path: baseUrl.path + 'pokemon');
     Response _response = await client.get(_uri);
     Map<String, dynamic> jsonResponse =
         json.decode(_response.body) as Map<String, dynamic>;
-    _pokemonCount = jsonResponse['count'] as int;
+    settingsProvider.pokemonCount = jsonResponse['count'] as int;
   }
 
   Future<List<PokemonBaseInformation>> getBaseInformationForAll() async {
-    // if (!_updatedPokemonCount) await getPokemonCount();
+    // if (!settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
     List<PokemonBaseInformation> list = [];
-    for (int i = 1; i <= _pokemonCount; i++) {
+    for (int i = 1; i <= settingsProvider.pokemonCount; i++) {
       list.add(await getBaseInformation(i));
     }
     return list;
@@ -190,10 +207,10 @@ class ApiProvider {
   }
 
   Future<List<Name>> getAllNames() async {
-    // if (!_updatedPokemonCount) await getPokemonCount();
+    // if (!settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
     List<Name> namesList = [];
 
-    for (int i = 1; i <= _pokemonCount; i++) {
+    for (int i = 1; i <= settingsProvider.pokemonCount; i++) {
       String name = await getName(i);
       namesList.add(Name(name, i, Language.german().id));
     }
