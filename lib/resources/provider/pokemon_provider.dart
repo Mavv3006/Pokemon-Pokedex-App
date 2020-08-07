@@ -42,6 +42,7 @@ class PokemonProvider extends ChangeNotifier {
     return storageProvider.getMultiple(
       offset,
       settingsProvider.pokemonAmountPerPage,
+      settingsProvider.language,
     );
   }
 }

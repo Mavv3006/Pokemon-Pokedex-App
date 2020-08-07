@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/language.dart';
 import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
@@ -42,21 +44,16 @@ class MainDrawer extends StatelessWidget {
         onTap: () async {
           List<PokemonBaseInformation> list =
               await database.getAll(Language.german());
-          print(list.toString());
+          log(list.toString());
         },
       ),
       DrawerTile(
-        title: "Search 'Bis'",
+        title: "Get Count",
         onTap: () async {
-          List<PokemonBaseInformation> list = await database.search("Bis");
-          print(list.toString());
-        },
-      ),
-      DrawerTile(
-        title: "Search 'ak'",
-        onTap: () async {
-          List<PokemonBaseInformation> list = await database.search("ak");
-          print(list.toString());
+          List<PokemonBaseInformation> list =
+              await database.getAll(Language.german());
+          int count = list.length;
+          log(count.toString());
         },
       ),
     ];

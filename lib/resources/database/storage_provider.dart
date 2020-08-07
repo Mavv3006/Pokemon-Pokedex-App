@@ -6,5 +6,9 @@ abstract class StorageProvider {
   Future<List<PokemonBaseInformation>> getAll(Language language);
   Future<void> update();
   Future<bool> isUpToDate(int remoteCount);
-  Future<List<PokemonBaseInformation>> getMultiple(int offset, int limit);
+  Future<List<PokemonBaseInformation>> getMultiple(
+    int offset,
+    int limit,
+    Language language,
+  );
 }
