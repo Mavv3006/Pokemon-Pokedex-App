@@ -225,8 +225,8 @@ class SqfliteDatabase extends StorageProvider {
       where n.$namesLanguageId = ${language.id} 
         and t2.$typesLanguageId = ${language.id} 
         and (t3.$typesLanguageId =6 or t3.$typesLanguageId is null)
-        and p.$pokemonsId >= $offset
-        and p.$pokemonsId < ${offset + limit + 1}
+        and p.$pokemonsId > $offset
+        and p.$pokemonsId <= ${offset + limit}
       ORDER BY p.$pokemonsId 
     """;
     Database database = await SqfliteHelper.instance.database;
