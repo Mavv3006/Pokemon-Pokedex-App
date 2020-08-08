@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pokemon_pokedex/screens/pokedexScreen/pokedex_screen.dart';
 import 'package:pokemon_pokedex/screens/searchScreen/search_screen.dart';
+import 'package:pokemon_pokedex/screens/settingsScreen/settings_screen.dart';
 import 'package:pokemon_pokedex/screens/widgets/download.dart';
 import 'package:pokemon_pokedex/screens/widgets/provider_list.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
           Routes.pokedex: (context) => PokedexScreen(),
           Routes.search: (context) => SearchScreen(),
           Routes.downlaod: (context) => Download(),
+          Routes.settings: (context) => SettingsScreen(),
         },
         title: 'Flutter Demo',
         theme: ThemeData(
