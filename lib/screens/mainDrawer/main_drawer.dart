@@ -33,29 +33,6 @@ class MainDrawer extends StatelessWidget {
         title: "Einstellungen",
         onTap: () => print("hi"),
       ),
-      DrawerTile(
-        title: "Update DB",
-        onTap: () async {
-          database.update();
-        },
-      ),
-      DrawerTile(
-        title: "Read DB",
-        onTap: () async {
-          List<PokemonBaseInformation> list =
-              await database.getAll(Language.german());
-          log(list.toString());
-        },
-      ),
-      DrawerTile(
-        title: "Get Count",
-        onTap: () async {
-          List<PokemonBaseInformation> list =
-              await database.getAll(Language.german());
-          int count = list.length;
-          log(count.toString());
-        },
-      ),
     ];
 
     return Container(

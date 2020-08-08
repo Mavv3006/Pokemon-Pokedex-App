@@ -29,16 +29,14 @@ class ProviderList extends StatelessWidget {
           },
         ),
         ProxyProvider<ApiProvider, StorageProvider>(
-            lazy: false,
-            update: (
-              BuildContext context,
-              ApiProvider apiProvider,
-              StorageProvider previous,
-            ) {
-              final storageProvider = SqfliteDatabase(apiProvider: apiProvider);
-              _checkPokemonCount(apiProvider, storageProvider);
-              return storageProvider;
-            }),
+          lazy: false,
+          update: (
+            BuildContext context,
+            ApiProvider apiProvider,
+            StorageProvider previous,
+          ) =>
+              SqfliteDatabase(apiProvider: apiProvider),
+        ),
         ChangeNotifierProxyProvider3<SettingsProvider, ApiProvider,
             StorageProvider, PokemonProvider>(
           create: (BuildContext context) => PokemonProvider(),
@@ -59,15 +57,5 @@ class ProviderList extends StatelessWidget {
       ],
       child: child,
     );
-  }
-
-  Future<void> _checkPokemonCount(
-    ApiProvider apiProvider,
-    StorageProvider storageProvider,
-  ) async {
-    int remoteCount = await apiProvider.pokemonCount;
-    if (await storageProvider.isUpToDate(remoteCount) == false) {
-      storageProvider.update();
-    }
   }
 }

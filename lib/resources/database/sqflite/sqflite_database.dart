@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:pokemon_pokedex/models/database_insert_model.dart';
 import 'package:pokemon_pokedex/models/language.dart';
 import 'package:pokemon_pokedex/models/pokemon/name.dart';
@@ -29,15 +27,17 @@ class SqfliteDatabase extends StorageProvider {
         n.$namesName ,
         p.$pokemonsFront , 
         p.$pokemonsBack,
-        t2.$typesTypeId ,
-        t2.$typesName ,
-        t3.$typesName ,
-        t3.$typesTypeId 
+        t2.$typesTypeId as $pokemonsType1Id,
+        t2.$typesName as $typesName1,
+        t3.$typesName as $typesName2,
+        t3.$typesTypeId as $pokemonsType2Id 
       from $pokemons p 
       inner join $names n on n.$namesPokemonId =p.$pokemonsId 
       inner join $types t2 on t2.$typesTypeId =p.$pokemonsType1Id
-      inner join $types t3 on t3.$typesTypeId =p.$pokemonsType2Id 
-      where n.$namesLanguageId = ${language.id} and t2.$typesLanguageId = ${language.id} and t3.$typesLanguageId = ${language.id}
+      left outer join $types t3 on t3.$typesTypeId =p.$pokemonsType2Id 
+      where n.$namesLanguageId = ${language.id} 
+        and t2.$typesLanguageId = ${language.id} 
+        and (t3.$typesLanguageId =6 or t3.$typesLanguageId is null)
       ORDER BY p.$pokemonsId 
     """;
     Database database = await SqfliteHelper.instance.database;
@@ -186,11 +186,7 @@ class SqfliteDatabase extends StorageProvider {
 
 // isUpToDate methods ----------------------------------------------------------
   @override
-  Future<bool> isUpToDate(int remoteCount) async {
-    return remoteCount == await _countDatabaseEntries();
-  }
-
-  Future<int> _countDatabaseEntries() async {
+  Future<int> getCount() async {
     Database database = await SqfliteHelper.instance.database;
     List<Map<String, dynamic>> databaseReturn = await database.query(
       pokemons,
@@ -231,7 +227,6 @@ class SqfliteDatabase extends StorageProvider {
     """;
     Database database = await SqfliteHelper.instance.database;
     List<Map<String, dynamic>> map = await database.rawQuery(sql);
-    log(map.length.toString());
     return _mapToModel(map);
   }
 }

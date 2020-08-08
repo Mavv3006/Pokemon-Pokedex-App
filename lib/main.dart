@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
 
     return ProviderList(
       child: MaterialApp(
-        // initialRoute: Routes.pokedex,
         initialRoute: Routes.downlaod,
         routes: {
           Routes.pokedex: (context) => PokedexScreen(),
