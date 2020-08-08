@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
+import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
 
 class PokemonImages extends StatelessWidget {
-  final Pokemon pokemon;
+  final PokemonBaseInformation pokemon;
 
   PokemonImages(
     this.pokemon, {
@@ -15,7 +15,7 @@ class PokemonImages extends StatelessWidget {
       width: double.infinity,
       height: 120,
       child: Image.network(
-        pokemon.sprites.frontDefault.toString(),
+        pokemon.frontImage.toString(),
         fit: BoxFit.contain,
       ),
     );

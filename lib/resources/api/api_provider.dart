@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
@@ -16,7 +17,10 @@ class ApiProvider {
   Client client = Client();
   SettingsProvider settingsProvider;
 
-  int get pokemonCount => settingsProvider.pokemonCount;
+  Future<int> get pokemonCount async {
+    if (settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
+    return settingsProvider.pokemonCount;
+  }
 
   /// Gets basic and additional information for one pokemon based on the ID.
   Future<Pokemon> getSingle(int id) async {

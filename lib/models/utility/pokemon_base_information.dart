@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:pokemon_pokedex/models/language.dart';
 import 'package:pokemon_pokedex/models/pokemon/pokemon_type.dart';
 import 'package:pokemon_pokedex/models/utility/deserializable.dart';
@@ -37,11 +39,34 @@ class PokemonBaseInformation extends Model
 
   @override
   PokemonBaseInformation fromMap(Map<String, dynamic> map) {
+    // Type 1
+    int typeId = map[pokemonsType1Id] as int;
+    String typeName = map[typesName1] as String;
+    PokemonType type1 = PokemonType(id: typeId, name: typeName);
+
+    // Type 2
+    PokemonType type2;
+    if (map[pokemonsType2Id] != null) {
+      typeId = map[pokemonsType2Id] as int;
+      typeName = map[typesName2] as String;
+      type2 = PokemonType(id: typeId, name: typeName);
+    }
+
+    // Pokemon ID
+    int pokemonId = map[pokemonsId] as int;
+
+    // Language
+    Language language = Language.fromId(map[languageId] as int);
+
+    // Name
+    String pokemonName = map[namesName] as String;
+
     return PokemonBaseInformation(
-      id: map[pokemonsId] as int,
-      type1: PokemonType(id: map[pokemonsType1Id] as int),
-      type2: PokemonType(id: map[pokemonsType2Id] as int),
-      language: Language.fromId(map[languageId] as int),
+      id: pokemonId,
+      type1: type1,
+      type2: type2,
+      language: language,
+      name: pokemonName,
     );
   }
 

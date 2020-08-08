@@ -25,3 +25,6 @@ final String pokemonsType2Id = 'pokemons_type2Id';
 
 // generall --------------------------------------------------------------------
 final String languageId = 'languageId';
+
+final String typesName1 = 'types_name_1';
+final String typesName2 = 'types_name_2';

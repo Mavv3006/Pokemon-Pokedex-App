@@ -5,4 +5,10 @@ abstract class StorageProvider {
   Future<List<PokemonBaseInformation>> search(String query);
   Future<List<PokemonBaseInformation>> getAll(Language language);
   Future<void> update();
+  Future<int> getCount();
+  Future<List<PokemonBaseInformation>> getMultiple(
+    int offset,
+    int limit,
+    Language language,
+  );
 }

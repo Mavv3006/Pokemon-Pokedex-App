@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_pokedex/models/pokemon/pokemon.dart';
+import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
 import 'package:pokemon_pokedex/screens/pokedexScreen/widgets/pokemon_widget.dart';
 
 class PokemonListView extends StatelessWidget {
-  final List<Pokemon> pokemonList;
+  final List<PokemonBaseInformation> pokemonList;
 
   const PokemonListView(
     this.pokemonList, {

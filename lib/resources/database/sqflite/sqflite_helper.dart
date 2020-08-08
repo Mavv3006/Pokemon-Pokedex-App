@@ -77,19 +77,21 @@ class SqfliteHelper {
   }
 
   _createNames(Database db) async {
-    await db.execute('''
-          create table $names (
-            $namesPokemonId INTEGER,
-            $namesLanguageId INTEGER,
-            $namesName TEXT not null,
-            primary key ($namesPokemonId, $namesLanguageId),
-            constraint fk_language
-              foreign key ($namesLanguageId)
-              references $languages ($languagesId)
-            constraint fk_pokemonId
-              foreign key ($namesPokemonId)
-              references $pokemons ($pokemonsId)
-          )
-        ''');
+    await db.execute(
+      '''
+        create table $names (
+          $namesPokemonId INTEGER not null,
+          $namesLanguageId INTEGER not null,
+          $namesName TEXT not null,
+          primary key ($namesPokemonId, $namesLanguageId, $namesName),
+          constraint fk_language
+            foreign key ($namesLanguageId)
+            references $languages ($languagesId)
+          constraint fk_pokemonId
+            foreign key ($namesPokemonId)
+            references $pokemons ($pokemonsId)
+        )
+      ''',
+    );
   }
 }

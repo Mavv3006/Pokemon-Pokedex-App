@@ -17,18 +17,6 @@ class ProviderList extends StatelessWidget {
         ChangeNotifierProvider<SettingsProvider>(
           create: (BuildContext context) => SettingsProvider(),
         ),
-        ChangeNotifierProxyProvider<SettingsProvider, PokemonProvider>(
-          create: (BuildContext context) => PokemonProvider(),
-          update: (
-            BuildContext context,
-            SettingsProvider value,
-            PokemonProvider previous,
-          ) {
-            PokemonProvider pokemons = PokemonProvider();
-            pokemons.settingsProvider = value;
-            return pokemons;
-          },
-        ),
         ProxyProvider<SettingsProvider, ApiProvider>(
           update: (
             BuildContext context,
@@ -41,12 +29,30 @@ class ProviderList extends StatelessWidget {
           },
         ),
         ProxyProvider<ApiProvider, StorageProvider>(
+          lazy: false,
           update: (
             BuildContext context,
-            ApiProvider value,
+            ApiProvider apiProvider,
             StorageProvider previous,
           ) =>
-              SqfliteDatabase(apiProvider: value),
+              SqfliteDatabase(apiProvider: apiProvider),
+        ),
+        ChangeNotifierProxyProvider3<SettingsProvider, ApiProvider,
+            StorageProvider, PokemonProvider>(
+          create: (BuildContext context) => PokemonProvider(),
+          update: (
+            BuildContext context,
+            SettingsProvider settingsProvider,
+            ApiProvider apiProvider,
+            StorageProvider storageProvider,
+            PokemonProvider _,
+          ) {
+            PokemonProvider pokemons = PokemonProvider();
+            pokemons.apiProvider = apiProvider;
+            pokemons.settingsProvider = settingsProvider;
+            pokemons.storageProvider = storageProvider;
+            return pokemons;
+          },
         ),
       ],
       child: child,

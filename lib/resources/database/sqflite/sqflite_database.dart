@@ -27,15 +27,17 @@ class SqfliteDatabase extends StorageProvider {
         n.$namesName ,
         p.$pokemonsFront , 
         p.$pokemonsBack,
-        t2.$typesTypeId ,
-        t2.$typesName ,
-        t3.$typesName ,
-        t3.$typesTypeId 
+        t2.$typesTypeId as $pokemonsType1Id,
+        t2.$typesName as $typesName1,
+        t3.$typesName as $typesName2,
+        t3.$typesTypeId as $pokemonsType2Id 
       from $pokemons p 
       inner join $names n on n.$namesPokemonId =p.$pokemonsId 
       inner join $types t2 on t2.$typesTypeId =p.$pokemonsType1Id
-      inner join $types t3 on t3.$typesTypeId =p.$pokemonsType2Id 
-      where n.$namesLanguageId = ${language.id} and t2.$typesLanguageId = ${language.id} and t3.$typesLanguageId = ${language.id}
+      left outer join $types t3 on t3.$typesTypeId =p.$pokemonsType2Id 
+      where n.$namesLanguageId = ${language.id} 
+        and t2.$typesLanguageId = ${language.id} 
+        and (t3.$typesLanguageId =6 or t3.$typesLanguageId is null)
       ORDER BY p.$pokemonsId 
     """;
     Database database = await SqfliteHelper.instance.database;
@@ -55,7 +57,7 @@ class SqfliteDatabase extends StorageProvider {
     DatabaseInsertModel model = await _downloadAll();
     print("Download finished");
     print("Insert started");
-    _insertAll(model);
+    await _insertAll(model);
     print("Insert finished");
   }
 
@@ -86,7 +88,7 @@ class SqfliteDatabase extends StorageProvider {
 
   // Insert methods --------------------------------------------------------------
 
-  _insertAll(DatabaseInsertModel model) async {
+  Future<void> _insertAll(DatabaseInsertModel model) async {
     _insertLanguages(model.languageList);
     _insertTypes(model.typeList);
     _insertPokemons(model.pokemonList);
@@ -180,5 +182,51 @@ class SqfliteDatabase extends StorageProvider {
       list.add(pokemon);
     }
     return list;
+  }
+
+// isUpToDate methods ----------------------------------------------------------
+  @override
+  Future<int> getCount() async {
+    Database database = await SqfliteHelper.instance.database;
+    List<Map<String, dynamic>> databaseReturn = await database.query(
+      pokemons,
+      columns: ['count(*) as sum'],
+    );
+    Map<String, dynamic> firstValue = databaseReturn[0];
+    int sum = firstValue['sum'] as int;
+    return sum;
+  }
+
+// getMultiple methods ---------------------------------------------------------
+
+  @override
+  Future<List<PokemonBaseInformation>> getMultiple(
+    int offset,
+    int limit,
+    Language language,
+  ) async {
+    final String sql = """
+      select 	p.$pokemonsId , 
+        n.$namesName ,
+        p.$pokemonsFront , 
+        p.$pokemonsBack,
+        t2.$typesTypeId as $pokemonsType1Id,
+        t2.$typesName as $typesName1,
+        t3.$typesName as $typesName2,
+        t3.$typesTypeId as $pokemonsType2Id 
+      from $pokemons p 
+      inner join $names n on n.$namesPokemonId = p.$pokemonsId
+      inner join $types t2 on t2.$typesTypeId = p.$pokemonsType1Id
+      left outer join $types t3 on t3.$typesTypeId = p.$pokemonsType2Id 
+      where n.$namesLanguageId = ${language.id} 
+        and t2.$typesLanguageId = ${language.id} 
+        and (t3.$typesLanguageId =6 or t3.$typesLanguageId is null)
+        and p.$pokemonsId > $offset
+        and p.$pokemonsId <= ${offset + limit}
+      ORDER BY p.$pokemonsId 
+    """;
+    Database database = await SqfliteHelper.instance.database;
+    List<Map<String, dynamic>> map = await database.rawQuery(sql);
+    return _mapToModel(map);
   }
 }

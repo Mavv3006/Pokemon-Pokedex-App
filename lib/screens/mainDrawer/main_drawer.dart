@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/language.dart';
 import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
@@ -30,34 +32,6 @@ class MainDrawer extends StatelessWidget {
       DrawerTile(
         title: "Einstellungen",
         onTap: () => print("hi"),
-      ),
-      DrawerTile(
-        title: "Update DB",
-        onTap: () async {
-          database.update();
-        },
-      ),
-      DrawerTile(
-        title: "Read DB",
-        onTap: () async {
-          List<PokemonBaseInformation> list =
-              await database.getAll(Language.german());
-          print(list.toString());
-        },
-      ),
-      DrawerTile(
-        title: "Search 'Bis'",
-        onTap: () async {
-          List<PokemonBaseInformation> list = await database.search("Bis");
-          print(list.toString());
-        },
-      ),
-      DrawerTile(
-        title: "Search 'ak'",
-        onTap: () async {
-          List<PokemonBaseInformation> list = await database.search("ak");
-          print(list.toString());
-        },
       ),
     ];
 
