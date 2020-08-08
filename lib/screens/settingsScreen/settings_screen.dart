@@ -1,32 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pokemon_pokedex/resources/settings/settings_provider.dart';
 import 'package:pokemon_pokedex/screens/mainDrawer/main_drawer.dart';
 import 'package:pokemon_pokedex/screens/settingsScreen/widgets/settings_tile.dart';
 import 'package:pokemon_pokedex/screens/widgets/pokemon_app_bar.dart';
 import 'package:pokemon_pokedex/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
-  final List<SettingsTile> settingsTileList = <SettingsTile>[
-    SettingsTile(
-      activeSetting: 'Sprache ändern',
-      leading: 'Sprache ändern',
-    ),
-    SettingsTile(
-      activeSetting: 'Sprache ändern',
-      leading: 'Sprache ändern',
-    ),
-    SettingsTile(
-      activeSetting: 'Sprache ändern',
-      leading: 'Sprache ändern',
-    ),
-    SettingsTile(
-      activeSetting: 'Sprache ändern',
-      leading: 'Sprache ändern',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(
+      context,
+      listen: true,
+    );
+
+    final List<SettingsTile> settingsTileList = <SettingsTile>[
+      // lanuguage
+      SettingsTile(
+        leading: 'Sprache ändern',
+        activeSetting: settingsProvider.language.name,
+      ),
+      SettingsTile(
+        leading: 'Pokémon pro Seite',
+        activeSetting: settingsProvider.pokemonAmountPerPage.toString(),
+      ),
+    ];
     return Scaffold(
       backgroundColor: MyColors.BLUE,
       appBar: PokemonAppBar(

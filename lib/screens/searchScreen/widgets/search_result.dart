@@ -22,6 +22,7 @@ class SearchResult extends StatelessWidget {
         top: 26,
         left: GridScreenInformation.outerPadding,
         right: GridScreenInformation.outerPadding,
+        bottom: GridScreenInformation.outerPadding,
       ),
       scrollDirection: Axis.vertical,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

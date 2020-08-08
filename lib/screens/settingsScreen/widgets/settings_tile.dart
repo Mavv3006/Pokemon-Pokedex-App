@@ -45,6 +45,7 @@ class SettingsTile extends StatelessWidget {
                       activeSetting,
                       style: Theme.of(context).textTheme.bodyText1.copyWith(
                             color: Color(0xA3003A70),
+                            fontSize: 15,
                           ),
                     ),
                   ],
