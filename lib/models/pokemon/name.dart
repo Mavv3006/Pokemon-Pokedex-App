@@ -1,7 +1,7 @@
 import 'package:pokemon_pokedex/models/utility/deserializable.dart';
 import 'package:pokemon_pokedex/models/utility/model.dart';
 import 'package:pokemon_pokedex/models/utility/serializable.dart';
-import 'package:pokemon_pokedex/resources/database/sqflite/constants.dart';
+import 'package:pokemon_pokedex/resources/database/storageDatabase/storage.dart';
 
 class Name extends Model implements Serializable, Deserializable {
   final String name;

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
 import 'package:pokemon_pokedex/resources/api/api_provider.dart';
-import 'package:pokemon_pokedex/resources/database/storage_provider.dart';
+import 'package:pokemon_pokedex/resources/database/storageDatabase/storage.dart';
 import 'package:pokemon_pokedex/resources/settings/settings_provider.dart';
 
 class PokemonProvider extends ChangeNotifier {

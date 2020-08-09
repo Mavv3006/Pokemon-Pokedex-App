@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
@@ -16,10 +15,15 @@ class ApiProvider {
   final Uri baseUrl = Uri.https('pokeapi.co', '/api/v2/');
   Client client = Client();
   SettingsProvider settingsProvider;
+  bool _hasUpdatedPokemonCount = true;
+  int _pokemonCount = 10;
 
   Future<int> get pokemonCount async {
-    if (settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
-    return settingsProvider.pokemonCount;
+    if (!_hasUpdatedPokemonCount) {
+      // don't update pokemon count -> _hasUpdatedPokemonCount = true
+      await updatePokemonCount();
+    }
+    return _pokemonCount;
   }
 
   /// Gets basic and additional information for one pokemon based on the ID.
@@ -172,18 +176,18 @@ class ApiProvider {
   /// Counts the amount of pokemon available
   @visibleForTesting
   Future<void> updatePokemonCount() async {
-    settingsProvider.hasUpdatedPokemonCount = true;
     Uri _uri = baseUrl.replace(path: baseUrl.path + 'pokemon');
     Response _response = await client.get(_uri);
     Map<String, dynamic> jsonResponse =
         json.decode(_response.body) as Map<String, dynamic>;
-    settingsProvider.pokemonCount = jsonResponse['count'] as int;
+    _pokemonCount = jsonResponse['count'] as int;
+    _hasUpdatedPokemonCount = true;
   }
 
   Future<List<PokemonBaseInformation>> getBaseInformationForAll() async {
     // if (!settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
     List<PokemonBaseInformation> list = [];
-    for (int i = 1; i <= settingsProvider.pokemonCount; i++) {
+    for (int i = 1; i <= _pokemonCount; i++) {
       list.add(await getBaseInformation(i));
     }
     return list;
@@ -211,7 +215,7 @@ class ApiProvider {
     // if (!settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
     List<Name> namesList = [];
 
-    for (int i = 1; i <= settingsProvider.pokemonCount; i++) {
+    for (int i = 1; i <= _pokemonCount; i++) {
       String name = await getName(i);
       namesList.add(Name(name, i, Language.german().id));
     }

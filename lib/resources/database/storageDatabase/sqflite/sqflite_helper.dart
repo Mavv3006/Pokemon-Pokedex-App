@@ -1,5 +1,5 @@
 import 'package:path/path.dart';
-import 'package:pokemon_pokedex/resources/database/sqflite/constants.dart';
+import 'package:pokemon_pokedex/resources/database/storageDatabase/storage.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SqfliteHelper {

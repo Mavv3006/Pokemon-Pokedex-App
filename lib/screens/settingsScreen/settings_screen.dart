@@ -15,15 +15,16 @@ class SettingsScreen extends StatelessWidget {
       listen: true,
     );
 
-    final List<SettingsTile> settingsTileList = <SettingsTile>[
-      // lanuguage
+    final List<SettingsTile> settingsTileList = [
       SettingsTile(
         leading: 'Sprache ändern',
         activeSetting: settingsProvider.language.name,
+        onPressed: () => settingsProvider.logActiveLanguageFromDatabase,
       ),
       SettingsTile(
         leading: 'Pokémon pro Seite',
         activeSetting: settingsProvider.pokemonAmountPerPage.toString(),
+        onPressed: () => settingsProvider.logPokemonAmountPerPageFromDatabase,
       ),
     ];
     return Scaffold(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/models/grid_screen_information.dart';
 import 'package:pokemon_pokedex/models/utility/pokemon_base_information.dart';
-import 'package:pokemon_pokedex/resources/database/storage_provider.dart';
+import 'package:pokemon_pokedex/resources/database/storageDatabase/storage.dart';
 import 'package:pokemon_pokedex/screens/searchScreen/widgets/empty_search_result.dart';
 import 'package:pokemon_pokedex/screens/searchScreen/widgets/search_result.dart';
 import 'package:provider/provider.dart';

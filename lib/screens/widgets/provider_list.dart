@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_pokedex/resources/api/api_provider.dart';
-import 'package:pokemon_pokedex/resources/database/sqflite/sqflite_database.dart';
-import 'package:pokemon_pokedex/resources/database/storage_provider.dart';
+import 'package:pokemon_pokedex/resources/database/settingsDatabase/settings_storage.dart';
+import 'package:pokemon_pokedex/resources/database/storageDatabase/storage.dart';
 import 'package:pokemon_pokedex/resources/provider/pokemon_provider.dart';
 import 'package:pokemon_pokedex/resources/settings/settings_provider.dart';
 import 'package:provider/provider.dart';
@@ -15,16 +15,21 @@ class ProviderList extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<SettingsProvider>(
-          create: (BuildContext context) => SettingsProvider(),
+          create: (BuildContext context) {
+            SettingsProvider settingsProvider = SettingsProvider();
+            settingsProvider.settingsStorageProvider = EasiestDbDatabase();
+            settingsProvider.setDefaultValues();
+            return settingsProvider;
+          },
         ),
         ProxyProvider<SettingsProvider, ApiProvider>(
           update: (
             BuildContext context,
-            SettingsProvider value,
-            ApiProvider previous,
+            SettingsProvider settingsProvider,
+            ApiProvider _,
           ) {
             ApiProvider apiProvider = ApiProvider();
-            apiProvider.settingsProvider = value;
+            apiProvider.settingsProvider = settingsProvider;
             return apiProvider;
           },
         ),
@@ -33,7 +38,7 @@ class ProviderList extends StatelessWidget {
           update: (
             BuildContext context,
             ApiProvider apiProvider,
-            StorageProvider previous,
+            StorageProvider _,
           ) =>
               SqfliteDatabase(apiProvider: apiProvider),
         ),
