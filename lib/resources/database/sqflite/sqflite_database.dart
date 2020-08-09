@@ -12,6 +12,8 @@ import 'package:sqflite/sqflite.dart';
 class SqfliteDatabase extends StorageProvider {
   ApiProvider apiProvider;
 
+  bool _isDownloading = false;
+
   SqfliteDatabase({this.apiProvider});
 
 // Read methods ----------------------------------------------------------------
@@ -53,19 +55,26 @@ class SqfliteDatabase extends StorageProvider {
 // Download methods ------------------------------------------------------------
   @override
   Future<void> update() async {
+    if (_isDownloading) return;
+    _isDownloading = true;
     print("Download started");
     DatabaseInsertModel model = await _downloadAll();
     print("Download finished");
     print("Insert started");
     await _insertAll(model);
     print("Insert finished");
+    _isDownloading = false;
   }
 
   Future<DatabaseInsertModel> _downloadAll() async {
     DatabaseInsertModel model = DatabaseInsertModel();
+    print('downloading languages');
     model.languageList = _downloadLanguages();
+    print('downloading types');
     model.typeList = await _downloadTypes();
+    print('downloading pokemons');
     model.pokemonList = await _downloadPokemons();
+    print('downloading pokemon names');
     model.nameList = await _downloadNames();
     return model;
   }

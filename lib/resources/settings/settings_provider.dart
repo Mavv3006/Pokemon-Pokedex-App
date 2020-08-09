@@ -10,7 +10,7 @@ class SettingsProvider extends ChangeNotifier {
   SettingsProvider()
       : _language = Language.german(),
         _pokemonAmountPerPage = 10,
-        _pokemonCount = 10,
+        _pokemonCount = 100,
         _updatedPokemonCount = false;
 
 // Setter and Getter for the language ------------------------------------------

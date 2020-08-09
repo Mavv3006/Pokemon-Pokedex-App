@@ -18,7 +18,7 @@ class ApiProvider {
   SettingsProvider settingsProvider;
 
   Future<int> get pokemonCount async {
-    if (settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
+    if (!settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
     return settingsProvider.pokemonCount;
   }
 
@@ -172,18 +172,20 @@ class ApiProvider {
   /// Counts the amount of pokemon available
   @visibleForTesting
   Future<void> updatePokemonCount() async {
-    settingsProvider.hasUpdatedPokemonCount = true;
     Uri _uri = baseUrl.replace(path: baseUrl.path + 'pokemon');
     Response _response = await client.get(_uri);
     Map<String, dynamic> jsonResponse =
         json.decode(_response.body) as Map<String, dynamic>;
     settingsProvider.pokemonCount = jsonResponse['count'] as int;
+    settingsProvider.hasUpdatedPokemonCount = true;
+    log('updated Pokemon count to ${settingsProvider.pokemonCount}');
   }
 
   Future<List<PokemonBaseInformation>> getBaseInformationForAll() async {
-    // if (!settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
+    if (!settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
     List<PokemonBaseInformation> list = [];
     for (int i = 1; i <= settingsProvider.pokemonCount; i++) {
+      if (i % 50 == 0) print(i);
       list.add(await getBaseInformation(i));
     }
     return list;
@@ -208,7 +210,7 @@ class ApiProvider {
   }
 
   Future<List<Name>> getAllNames() async {
-    // if (!settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
+    if (!settingsProvider.hasUpdatedPokemonCount) await updatePokemonCount();
     List<Name> namesList = [];
 
     for (int i = 1; i <= settingsProvider.pokemonCount; i++) {

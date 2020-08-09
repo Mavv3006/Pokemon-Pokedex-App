@@ -12,25 +12,44 @@ class Download extends StatefulWidget {
 }
 
 class _DownloadState extends State<Download> {
-  StorageProvider storageProvider;
-  ApiProvider apiProvider;
+  int downloader = 0;
 
-  Future<bool> _isUpToDate() async {
+  Future<bool> _isUpToDate(
+    ApiProvider apiProvider,
+    StorageProvider storageProvider,
+  ) async {
     int remoteCount = await apiProvider.pokemonCount;
     int localCount = await storageProvider.getCount();
     return localCount == remoteCount;
   }
 
-  _navigate() async {
-    if (!await _isUpToDate()) await storageProvider.update();
+  _navigate(
+    ApiProvider apiProvider,
+    StorageProvider storageProvider,
+    BuildContext context,
+  ) async {
+    if (!await _isUpToDate(apiProvider, storageProvider)) {
+      await storageProvider.update();
+    }
     Navigator.pushReplacementNamed(context, Routes.pokedex);
   }
 
   @override
   Widget build(BuildContext context) {
-    storageProvider = Provider.of<StorageProvider>(context);
-    apiProvider = Provider.of<ApiProvider>(context);
-    _navigate();
+    final storageProvider = Provider.of<StorageProvider>(
+      context,
+      listen: false,
+    );
+    final apiProvider = Provider.of<ApiProvider>(
+      context,
+      listen: false,
+    );
+    if (downloader == 0) {
+      setState(() {
+        downloader++;
+      });
+      _navigate(apiProvider, storageProvider, context);
+    }
     return Scaffold(
       backgroundColor: MyColors.DARK_BLUE,
       body: Center(
